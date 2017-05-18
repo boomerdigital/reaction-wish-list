@@ -7,6 +7,7 @@ import { sinon } from "meteor/practicalmeteor:sinon";
 import { addProduct } from "/server/imports/fixtures/products";
 import Fixtures from "/server/imports/fixtures";
 import {Wishlist} from "./lib/collections/collection"
+import { getShop  } from "/server/imports/fixtures/shops";
 
 Fixtures();
 
@@ -39,8 +40,8 @@ describe("WishList", function () {
     });
 
    it("Creates a wish list for a user",function(){
-       wishlistId=Wishlist.insert({userId: userId})
-       expect(wishListId).to.not.be.null
+       var wishlistId=Wishlist.insert({userId: userId})
+       expect(wishlistId).to.not.be.null
    })
 
    it("Adds a variant to a users wish list", function(){
@@ -58,4 +59,3 @@ describe("WishList", function () {
 
 
 
-});
