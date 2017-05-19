@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6463bad4-54d9-4195-bb86-f64bbbf51a17" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/reaction-wish-list.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/index.js" afterPath="$PROJECT_DIR$/client/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/register.js" afterPath="$PROJECT_DIR$/register.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/index.js" afterPath="$PROJECT_DIR$/server/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lib/collections/collection.js" afterPath="$PROJECT_DIR$/server/lib/collections/collection.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/lib/collections/schemas/wishlist.js" afterPath="$PROJECT_DIR$/server/lib/collections/schemas/wishlist.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/wishlist-collection.app-test.js" afterPath="$PROJECT_DIR$/server/wishlist-collection.app-test.js" />
     </list>
@@ -37,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="wishlist.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="wishlist.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/lib/collections/schemas/wishlist.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="4" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+            <state relative-caret-position="207">
+              <caret line="19" column="4" lean-forward="false" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -57,13 +51,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="wishlist-collection.app-test.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="wishlist-collection.app-test.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/wishlist-collection.app-test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="43" column="18" lean-forward="false" selection-start-line="43" selection-start-column="18" selection-end-line="43" selection-end-column="18" />
+            <state relative-caret-position="603">
+              <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
+                <marker date="1495144649405" expanded="true" signature="1703:1750" ph="{&quot;_id&quot;: wishlistId...}" />
+                <marker date="1495144649405" expanded="true" signature="1752:2007" ph="{...}" />
+                <marker date="1495144649405" expanded="true" signature="1781:1993" ph="{...}" />
+                <marker date="1495144649405" expanded="true" signature="1810:1975" ph="{&quot;productId&quot;: product.productId...}" />
               </folding>
             </state>
           </provider>
@@ -106,8 +104,8 @@
         <option value="$PROJECT_DIR$/register.js" />
         <option value="$PROJECT_DIR$/server/index.js" />
         <option value="$PROJECT_DIR$/server/wishlist-collection-app.test.js" />
-        <option value="$PROJECT_DIR$/server/lib/collections/schemas/wishlist.js" />
         <option value="$PROJECT_DIR$/server/lib/collections/collection.js" />
+        <option value="$PROJECT_DIR$/server/lib/collections/schemas/wishlist.js" />
         <option value="$PROJECT_DIR$/server/wishlist-collection.app-test.js" />
       </list>
     </option>
@@ -119,8 +117,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="341" />
-    <option name="y" value="293" />
+    <option name="x" value="365" />
+    <option name="y" value="128" />
     <option name="width" value="1620" />
     <option name="height" value="1060" />
   </component>
@@ -892,16 +890,16 @@
       <updated>1495110262656</updated>
       <workItem from="1495110274692" duration="1650000" />
       <workItem from="1495114001981" duration="177000" />
-      <workItem from="1495114191492" duration="10833000" />
+      <workItem from="1495114191492" duration="22227000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12660000" />
+    <option name="totallyTimeSpent" value="24054000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="341" y="293" width="1620" height="1060" extended-state="0" />
-    <editor active="false" />
+    <frame x="365" y="128" width="1620" height="1060" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -909,7 +907,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40473628" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16361679" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28671774" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1022,14 +1020,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/lib/collections/schemas/wishlist.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="4" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/lib/collections/collection.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -1040,11 +1030,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/wishlist-collection.app-test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="43" column="18" lean-forward="false" selection-start-line="43" selection-start-column="18" selection-end-line="43" selection-end-column="18" />
+        <state relative-caret-position="603">
+          <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
+            <marker date="1495144649405" expanded="true" signature="1703:1750" ph="{&quot;_id&quot;: wishlistId...}" />
+            <marker date="1495144649405" expanded="true" signature="1752:2007" ph="{...}" />
+            <marker date="1495144649405" expanded="true" signature="1781:1993" ph="{...}" />
+            <marker date="1495144649405" expanded="true" signature="1810:1975" ph="{&quot;productId&quot;: product.productId...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/lib/collections/schemas/wishlist.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="19" column="4" lean-forward="false" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>

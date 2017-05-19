@@ -5,10 +5,20 @@ import { SimpleSchema } from "meteor/aldeed:simple-schema";
 * merges with Cart and Order to create Orders collection
 */
 export const WishListItem = new SimpleSchema({
-    additionalField: {
+    productId: {
         type: String,
         optional: true
+    },
+    variantId: {
+        type: String,
+        optional: true
+    },
+    title: {
+        type: String,
+        defaultValue: "",
+        label: "Product Title"
     }
+
 });
 
 
