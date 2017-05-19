@@ -13,30 +13,6 @@ import {getShop} from "/server/imports/fixtures/shops";
 Fixtures();
 
 
-function logObject(obj, result ) {
-    if (typeof object != "object")
-        return "Invalid object";
-    if (typeof result == "undefined")
-        result = '';
-
-    if (result.length > 50)
-        return "[RECURSION TOO DEEP. ABORTING.]";
-
-    var rows = [];
-    for (var property in object) {
-        var datatype = typeof object[property];
-
-        var tempDescription = result + '"' + property + '"';
-        tempDescription += ' (' + datatype + ') => ';
-        if (datatype == "object")
-            tempDescription += 'object: ' + objectInspector(object[property], result + '  ');
-        else
-            tempDescription += object[property];
-
-        rows.push(tempDescription);
-    }
-}
-
 
 describe("WishList", function () {
     const user = Factory.create("registeredUser");
