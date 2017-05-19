@@ -80,7 +80,6 @@ describe("WishList", function () {
         })._id;
 
         const wishlistId = Wishlist.insert({userId: userId})
-        console.log("WIshlist ID"+ wishlistId);
         expect(wishlistId).to.not.be.null
 
 
@@ -97,8 +96,7 @@ describe("WishList", function () {
             });
 
         const aWishlist = Wishlist.findOne({_id: wishlistId});
-        console.log("Wishlist item size"+console.log(aWishlist.items));
-        //expect(aWishlist.items.length).to.equal(2);
+        expect(aWishlist.items.length).to.equal(1);
 
     });
 });
