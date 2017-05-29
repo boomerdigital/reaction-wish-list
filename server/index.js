@@ -1,3 +1,2 @@
-import './lib/collections/schemas'
-import './lib/collection'
-import './wishlist-functions'
+import "./lib/collections/schemas/wishlist.js";
+import "./wishlist-functions";
