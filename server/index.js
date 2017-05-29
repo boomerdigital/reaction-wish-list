@@ -1,3 +1,3 @@
-import './lib/collections/schemas'
-import './lib/collection'
+import './lib/collections/schemas/wishlist'
+import './lib/collections/collection'
 import './wishlist-functions'
