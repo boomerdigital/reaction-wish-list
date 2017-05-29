@@ -75,8 +75,16 @@ describe("WishList", function () {
         expect(aWishlist.items.length).to.equal(1);
 
     });
+
+    it("Vipul: Creates a WishList for a user",function(){
+      Meteor.call('createWishList',user);
+      const wishlistId = Wishlist.findOne({userId: userId});
+      expect(wishlistId).to.equal(user._id)
+    })
+
+    it("Vipul: Adds a product/variant to a users wish list ", function(){
+      Meteor.call('addToWishList', user, product)
+      const aWishlist = Wishlist.findOne({_id: wishlistId});
+      expect(aWishlist.items.length).to.equal(1);
+    })
 });
-
-
-
-
