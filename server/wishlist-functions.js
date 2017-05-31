@@ -3,17 +3,20 @@ import * as Collections from "/lib/collections";
 import {Reaction} from "/server/api";
 import {Products, Accounts} from "/lib/collections";
 import {Wishlist} from "./lib/collections/collection"
+import { check } from 'meteor/check'
 //import * as Schemas from "/lib/collections/schemas
 
 
-export function createWishList(user){
-   WishList.insert({userId:user._id});
+export function createWishlist(userId){
+  check(userId, String)
+   Wishlist.insert({userId:userId});
 }
 
 
-export function addToWishList(user, product){
-  const wishListId = WishList.insert({userId:user._id});
-  return WishList.update({
+export function addToWishlist(userId, product){
+
+  const wishListId = Wishlist.insert({userId:userId});
+  return Wishlist.update({
     _id:wishListId
   },  {
     $addToSet: {
@@ -27,17 +30,20 @@ export function addToWishList(user, product){
 }
 
 
-export function removeFromWishList(user, productId, variantId){
+export function removeFromWishlist(user, productId, variantId){
 
 
 }
 
 Meteor.methods({
-  "createWishList": function(user){
-    createWishList(user);
+  "createWishList": function(userId){
+    check(userId,String);
+    createWishlist(userId);
   },
-  "addToWishList": function(user,product){
-    addToWishList(user,product);
+  "addToWishList": function(userId,product){
+      check(userId,String);
+      check(product,Object);
+    addToWishlist(userId,product);
   }
 
 });
