@@ -43,40 +43,17 @@ describe("WishList", function () {
         Meteor.users.remove({});
     });
 
-    it("Creates a wish list for a user", function () {
-        const wishlistId=Wishlist.insert({userId: userId})
-        expect(wishlistId).to.not.be.null
+
+    it("Creates a WishList for a user",function(){
+      Meteor.call('createWishList',userId);
+      const wishlistId = Wishlist.findOne({userId: userId});
+      expect(wishlistId).to.not.be.null
     })
 
-    it("Adds a product/variant to a users wish list", function () {
-        const product = addProduct();
-        productId = product._id;
-        variantId = Products.findOne({
-            ancestors: [productId]
-        })._id;
-
-        const wishlistId = Wishlist.insert({userId: userId})
-        expect(wishlistId).to.not.be.null
-
-
-            Wishlist.update({
-                _id: wishlistId
-            }, {
-                $addToSet: {
-                    items: {
-                        _id: Random.id(),
-                        productId: product.productId,
-                        title: product.title,
-                    }
-                }
-            });
-
-        const aWishlist = Wishlist.findOne({_id: wishlistId});
-        expect(aWishlist.items.length).to.equal(1);
-
-    });
+    it("Adds a product/variant to a users wish list ", function(){
+      const product = addProduct();
+      Meteor.call('addToWishList', userId, product)
+      const aWishlist = Wishlist.findOne({userId: userId});
+      expect(aWishlist.items.length).to.equal(1);
+    })
 });
-
-
-
-
