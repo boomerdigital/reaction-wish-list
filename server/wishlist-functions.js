@@ -7,6 +7,12 @@ import { check } from 'meteor/check'
 //import * as Schemas from "/lib/collections/schemas
 
 
+export function getWishlist(userId){
+    const wishlistId=Wishlist.insert({userId: userId});
+    return Wishlist.findOne({userId: userId})
+
+}
+
 export function createWishlist(userId){
   check(userId, String)
    const wishlistId=Wishlist.insert({userId:userId});
