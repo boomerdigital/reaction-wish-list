@@ -9,41 +9,60 @@ import { check } from 'meteor/check'
 
 export function createWishlist(userId){
   check(userId, String)
-   Wishlist.insert({userId:userId});
+   const wishlistId=Wishlist.insert({userId:userId});
+   return Wishlist.findOne({_id: wishlistId})
 }
 
 
 export function addToWishlist(userId, product){
 
-  const wishListId = Wishlist.insert({userId:userId});
+  var aWishlist = Wishlist.findOne({userId: userId});
+  if(aWishlist == undefined)
+      aWishlist=createWishlist(userId);
+
   return Wishlist.update({
-    _id:wishListId
+    _id: aWishlist._id
   },  {
-    $addToSet: {
+    $push: {
       items: {
-        _id: Random.id(),
-        productId: product.productId,
-        title: product.title,
+        "_id": Random.id(),
+        "productId": product._id,
+        "title": product.title,
       }
     }
   });
 }
 
 
-export function removeFromWishlist(user, productId, variantId){
+export function removeFromWishlist(userId, product, variantId){
+    var aWishlist = Wishlist.findOne({userId: userId});
+    return Wishlist.update({
+        _id: aWishlist._id
+    },  {
+        $pull: {
+            items: {
+                productId: product._id
+            }
+        }
+    });
 
 
 }
 
 Meteor.methods({
-  "createWishList": function(userId){
+  "createWishlist": function(userId){
     check(userId,String);
     createWishlist(userId);
   },
-  "addToWishList": function(userId,product){
+  "addToWishlist": function(userId,product){
       check(userId,String);
       check(product,Object);
     addToWishlist(userId,product);
-  }
+  },
+  "removeFromWishlist": function(userId,product){
+   check(userId,String);
+   check(product,Object);
+   removeFromWishlist(userId,product);
+ }
 
 });

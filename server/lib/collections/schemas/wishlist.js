@@ -7,7 +7,7 @@ import { SimpleSchema } from "meteor/aldeed:simple-schema";
 export const WishListItem = new SimpleSchema({
     productId: {
         type: String,
-        optional: true
+        optional: false
     },
     variantId: {
         type: String,
@@ -34,7 +34,7 @@ export const Wishlist = new SimpleSchema({
     },
     userId: {
         type: String,
-        unique: false
+        unique:true
     },
     items: {
         type: [WishListItem],
