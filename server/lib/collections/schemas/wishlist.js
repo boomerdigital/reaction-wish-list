@@ -13,7 +13,7 @@ export const WishListItem = new SimpleSchema({
         type: String,
         optional: true
     },
-    title: {
+    title: { // Why do we want this?
         type: String,
         defaultValue: "",
         label: "Product Title"
