@@ -7,7 +7,7 @@ import {Products, Accounts} from "/lib/collections";
 import {sinon} from "meteor/practicalmeteor:sinon";
 import {addProduct,addProductSingleVariant} from "/server/imports/fixtures/products";
 import Fixtures from "/server/imports/fixtures";
-import {Wishlist} from "./lib/collections/collection"
+import {Wishlist} from "./lib/collections"
 import {getShop} from "/server/imports/fixtures/shops";
 
 Fixtures();

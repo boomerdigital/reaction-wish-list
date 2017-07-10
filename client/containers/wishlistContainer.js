@@ -4,6 +4,7 @@ import { Meteor } from "meteor/meteor";
 import { ReactionProduct } from "/lib/api";
 import { Reaction, i18next, Logger } from "/client/api";
 import classnames from "classnames";
+import { Wishlist } from "../components";
 import { registerComponent } from "/imports/plugins/core/layout/lib/components";
 
 class WishlistContainer extends Component {
@@ -12,8 +13,23 @@ class WishlistContainer extends Component {
     //
   }
 
+  get currentWishlist() {
+
+  }
+
+  get selectedVariant() {
+
+  }
+
+  handleCreateWishlist() {
+
+  }
   // For finding current user, do we use Accounts.user() or Meteor.user()
   // Do we want to hold currentUser within a constructor or get
+
+  handleWishlistButtonClick = (event, props) => {
+    debugger
+  }
 
   handleAddToWishlistClick = (event, props) => {
     debugger
@@ -35,61 +51,28 @@ class WishlistContainer extends Component {
 
   }
 
-  renderAddToWishlistButton() {
-    return (
-      <div className="row">
-        <Button
-          id="btn-add-to-wishlist"
-          bezelStyle="solid"
-          className="btn-lg btn-block"
-          label="Add to Wishlist"
-          onClick={this.handleAddToWishlistClick}
-        />
-      </div>
-    );
-  }
-
-  renderRemoveFromWishlistButton() {
-    return (
-      <div className="row">
-        <Button
-          id="btn-remove-from-wishlist"
-          bezelStyle="solid"
-          className="btn-lg btn-block"
-          label="Remove from Wishlist"
-          onClick={this.handleRemoveFromWishlistClick}
-        />
-      </div>
-    );
-  }
-
-  renderWishlistButton() {
-    // if no current user default to add to
-    // if current user, check if user has item on wishlist
-  }
-
   render() {
-    // this.renderWishlistButton();
+    // set onWishlistClick before
     return (
-      <div className="row">
-        <Button
-          id="btn-add-to-wishlist"
-          bezelStyle="solid"
-          className="btn-lg btn-block"
-          label="Add to Wishlist"
-          onClick={this.handleAddToWishlistClick}
-        />
-      </div>
+      <Wishlist
+        onWishlistClick={this.handleWishlistButtonClick}
+      />
     );
   }
 
 }
 
-onData(null, {
-  currentUser: getCurrentUser
-});
+function composer(props, onData) {
+
+  onData(null, {
+    // variant: getSelectedChildVariant,
+    // currentUser: getCurrentUser
+  });
+}
+
 
 WishlistContainer.propTypes = {
+  variant: PropTypes.object
 };
 
 export default composeWithTracker(composer)(WishlistContainer);

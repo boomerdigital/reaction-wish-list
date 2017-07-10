@@ -9,19 +9,6 @@ import { Button } from "/imports/plugins/core/ui/client/components";
 
 // Should this be a container instead
 class Wishlist extends Component {
-  constructor(props) {
-    super(props);
-    // wishlist should be a const
-    // user should be a const
-    // variant can change within a page
-    // isWished can change
-    this.state = {
-      variant: props.variant,
-      // wishlist: props.wishlist,
-      user: props.user,
-      isWished: props.isWished
-    };
-  }
 
   renderAddToWishlistButton() {
     return (
@@ -75,7 +62,8 @@ class Wishlist extends Component {
 Wishlist.propTypes = {
   variant: PropTypes.object,
   isWished: PropTypes.bool,
-  user: PropTypes.object
+  user: PropTypes.object,
+  onWishlistClick: PropTypes.func
 }
 
 registerComponent({
