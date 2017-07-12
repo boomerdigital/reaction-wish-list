@@ -2,7 +2,7 @@ import {Meteor} from "meteor/meteor";
 import * as Collections from "/lib/collections";
 import {Reaction} from "/server/api";
 import {Products, Accounts} from "/lib/collections";
-import {Wishlist} from "./lib/collections/collection"
+import {Wishlist} from "./lib/collections"
 import { check } from 'meteor/check'
 //import * as Schemas from "/lib/collections/schemas
 

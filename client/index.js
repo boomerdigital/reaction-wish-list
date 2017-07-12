@@ -1,1 +1,1 @@
-import "./templates/wishlist.html"
+import "./components"
