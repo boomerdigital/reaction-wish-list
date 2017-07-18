@@ -1,2 +1,2 @@
-import './lib/collections';
+import "./methods";
 import "./init";

@@ -1,1 +1,1 @@
-export { default as Wishlist } from "./wishlist";
+export { default as WishlistButton } from "./wishlistButton";
