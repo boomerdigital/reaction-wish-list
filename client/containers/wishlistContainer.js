@@ -8,36 +8,10 @@ import { Wishlist } from "../../lib/collections";
 import { WishlistButton } from "../components";
 import { registerComponent } from "/imports/plugins/core/layout/lib/components";
 
-
-function hasWishedItem() {
-  const userId = Meteor.userId();
-  const productId = ReactionProduct.selectedProductId();
-  const variantId = ReactionProduct.selectedVariantId();
-  if ( userId ) {
-
-    Meteor.call("hasWishedItem", userId, productId, variantId, function(err, result){
-
-      // I don't know how to collect the information here and return it outside of the call func
-      if (result == null) {
-        return false;
-      } else {
-        return true;
-      }
-    });
-  } else {
-    return false;
-  }
-}
-
 class WishlistContainer extends Component {
 
   get currentUserId() {
     return Meteor.userId();
-  }
-
-  toggleWishedState(state) {
-    // debugger
-    // Somehow want to tell the button to switch its state
   }
 
   handleAddToWishlist() {
@@ -46,11 +20,8 @@ class WishlistContainer extends Component {
     const variantId = ReactionProduct.selectedVariantId();
 
     if ( userId ) {
-      let currentWishlist = Wishlist.findOne({ userId: userId }) // This does not work but Wishlist is defined
 
-      // Check if item is already on wishlist
       Meteor.call("addToWishlist", userId, productId, variantId, function(err, result) {
-        this.toggleWishedState(true);
         if (err) {
           Alerts.toast(i18next.t("app.error", { error: err.reason }), "error");
           return false;
@@ -58,7 +29,7 @@ class WishlistContainer extends Component {
           console.log("Added Items")
           return true;
         }
-      }.bind(this)); // Testing binding to be able to tell the button to switch state correctly
+      });
 
     } else {
       // pop open sign in
@@ -87,12 +58,9 @@ class WishlistContainer extends Component {
   render() {
     return (
       <WishlistButton
-      onWishlistItemAdd={this.handleAddToWishlist}
-      onWishlistItemRemove={this.handleRemoveFromWishlist}
-      currentUserId={this.currentUserId}
-      variantId={this.selectedVariantId}
-      toggleWishedState={this.toggleWishedState}
-      hasWishedItem={hasWishedItem}
+        onWishlistItemAdd={this.handleAddToWishlist}
+        onWishlistItemRemove={this.handleRemoveFromWishlist}
+        currentUserId={this.currentUserId}
       />
     );
   }
@@ -103,8 +71,7 @@ function composer(props, onData) {
   const currentUserId = Meteor.userId();
 
   onData(null, {
-    currentUserId: currentUserId,
-    hasWishedItem: hasWishedItem
+    currentUserId: currentUserId
   });
 }
 

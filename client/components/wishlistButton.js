@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from "react";
+import { composeWithTracker } from "/lib/api/compose";
 import { Meteor } from "meteor/meteor";
-import { Session } from "meteor/session";
 import { Reaction } from "/client/api";
+import { ReactionProduct } from "/lib/api";
 import classnames from "classnames";
 import { registerComponent } from "/imports/plugins/core/layout/lib/components";
 import { Button } from "/imports/plugins/core/ui/client/components";
@@ -11,31 +12,48 @@ class WishlistButton extends Component {
     super(props);
 
     this.state = {
-      wished: this.props.hasWishedItem()
+      wished: this.hasWishedItem()
     }
 
-    this.handleAddToWishlistClick = this.handleAddToWishlistClick.bind(this);
-    this.handleRemoveToWishlistClick = this.handleRemoveToWishlistClick.bind(this); // I forget if we needs this at the moment
+    this.hasWishedItem = this.hasWishedItem.bind(this);
+  }
+
+  hasWishedItem() {
+    const userId = Meteor.userId();
+    const productId = ReactionProduct.selectedProductId();
+    const variantId = ReactionProduct.selectedVariantId();
+    if ( userId ) {
+
+      Meteor.call("hasWishedItem", userId, productId, variantId, function(err, result){
+
+        if (err || result == null) {
+          this.setState({
+            wished: false
+          });
+          return false;
+        } else {
+          this.setState({
+            wished: result
+          });
+          return result;
+        }
+      }.bind(this));
+    } else {
+      this.setState({
+        wished: false
+      });
+      return false;
+    }
   }
 
   handleAddToWishlistClick = (event, props) => {
-    event.preventDefault();
-    event.stopPropagation();
-
     this.props.onWishlistItemAdd();
-    this.setState({
-      wished: true
-    });
+    this.hasWishedItem();
   }
 
   handleRemoveToWishlistClick = (event, props) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.props.onWishlistItemAdd();
-    this.setState({
-      wished: false
-    });
+    this.props.onWishlistItemRemove();
+    this.hasWishedItem();
   }
 
   renderAddToWishlistButton(clickFunc) {
@@ -58,7 +76,7 @@ class WishlistButton extends Component {
         <Button
           id="btn-remove-from-wishlist"
           bezelStyle="solid"
-          className="btn-lg btn-block"
+          className="btn-lg btn-block btn-primary"
           label="Remove from Wishlist"
           onClick={clickFunc}
         />
@@ -72,10 +90,8 @@ class WishlistButton extends Component {
     const userId = Meteor.userId();
 
     if ( userId ) {
-      // If user has item on wishlist
-      // debugger
-      if (this.props.hasWishedItem) {
-        return this.renderAddToWishlistButton(this.handleAddToWishlistClick)
+      if (this.hasWishedItem()) {
+        return this.renderRemoveFromWishlistButton(this.handleRemoveToWishlistClick)
       } else {
         return this.renderAddToWishlistButton(this.handleAddToWishlistClick)
       }
@@ -85,17 +101,22 @@ class WishlistButton extends Component {
   }
 
   render() {
-    return this.renderWishlistButton();
+    if(this.state.wished == false) {
+      return this.renderAddToWishlistButton(this.handleAddToWishlistClick)
+    } else {
+      return this.renderRemoveFromWishlistButton(this.handleRemoveToWishlistClick)
+    }
   }
 }
 
+function composer(props, onData) {
+  onData(null, {});
+}
+
 WishlistButton.propTypes = {
-  variantId: PropTypes.string,
   currentUserId: PropTypes.string,
   onWishlistItemAdd: PropTypes.func,
-  onWishlistItemRemove: PropTypes.func,
-  toggleWishedState: PropTypes.func,
-  hasWishedItem: PropTypes.func
+  onWishlistItemRemove: PropTypes.func
 }
 
 registerComponent({
@@ -103,4 +124,4 @@ registerComponent({
   component: WishlistButton
 });
 
-export default WishlistButton;
+export default composeWithTracker(composer)(WishlistButton);
