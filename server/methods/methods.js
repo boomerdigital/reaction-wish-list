@@ -1,11 +1,7 @@
 import { Meteor } from "meteor/meteor";
-import { check } from "meteor/check";
+import { check, Match } from "meteor/check";
 import { Wishlist, WishlistItem } from "../../lib/collections";
 
-
-export function getWishlist(userId) {
-  return Wishlist.findOne({userId: userId});
-}
 
 export function createWishlist(userId) {
   const wishlistId = Wishlist.insert({ userId: userId });
@@ -21,7 +17,7 @@ Meteor.methods({
   addToWishlist: function(userId, productId, variantId) {
     check(userId, String);
     check(productId, String);
-    check(variantId, Match.OneOf(null, undefined, String));
+    check(variantId, Match.Optional(String));
 
     let aWishlist = Wishlist.findOne({ userId: userId });
 
@@ -43,7 +39,7 @@ Meteor.methods({
   removeFromWishlist: function(userId, productId, variantId) {
     check(userId, String);
     check(productId, String);
-    check(variantId, Match.OneOf(null, undefined, String));
+    check(variantId, Match.Optional(String));
 
     let aWishlist = Wishlist.findOne({ userId: userId });
 
@@ -58,9 +54,10 @@ Meteor.methods({
       }
     });
  },
- "wishlist/getWishlist": function(userId) {
+ getWishlist: function(userId) {
     check(userId, String);
-    return getWishlist(userId);
+
+    return Wishlist.findOne({ userId: userId });
   },
 
   findWishlistByItems: function(userId, productId, variantId) {
