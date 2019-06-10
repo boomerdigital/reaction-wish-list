@@ -263,6 +263,10 @@ export const ProductVariant = new SimpleSchema({
     index: 1,
     label: "Variant ShopId"
   },
+  "shopifyId": {
+    type: Number,
+    label: "Shopify's id"
+  },
   "sku": {
     label: "SKU",
     type: String,

@@ -53,6 +53,7 @@ export function xformVariant(variant, variantPriceInfo, shopCurrencyCode, varian
     },
     primaryImage,
     shopId: variant.shopId,
+    shopifyId: variant.shopifyId,
     sku: variant.sku,
     title: variant.title,
     updatedAt: variant.updatedAt || variant.createdAt || new Date(),
@@ -186,6 +187,7 @@ export async function xformProduct({ collections, product, shop, variants }) {
     productId: product._id,
     productType: product.productType,
     shopId: product.shopId,
+    shopifyId: product.shopifyId,
     sku: product.sku,
     slug: product.handle,
     socialMetadata: [
