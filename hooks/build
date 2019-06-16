@@ -7,4 +7,4 @@ docker build \  # (2)
     --build-arg "SOURCE_TYPE=$SOURCE_TYPE" \
     --build-arg "NODE_TOOL_FLAGS=--max-old-space-size=4096" \
     ${VERSION:+--build-arg "VERSION=$VERSION"} \  # (3)
-    -t $IMAGE_NAME .  # (4)
+    -t $IMAGE_NAME ..  # (4)
