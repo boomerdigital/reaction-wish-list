@@ -8,5 +8,6 @@ docker build \
   --build-arg COMMIT=$(git rev-parse HEAD) \
   --build-arg URL=$(git config --get remote.origin.url) \
   --build-arg BRANCH=$(git rev-parse --abbrev-ref HEAD) \
+  --build-arg NODE_TOOL_FLAGS=--max-old-space-size=4096, \
   --build-arg DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   -t $IMAGE_NAME .
