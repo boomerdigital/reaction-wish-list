@@ -37,6 +37,7 @@ export default function defineCollections(db, collections) {
     Templates: db.collection("Templates"),
     Themes: db.collection("Themes"),
     Translations: db.collection("Translations"),
-    users: db.collection("users")
+    users: db.collection("users"),
+    Wishlist: db.collection("Wishlist")
   });
 }

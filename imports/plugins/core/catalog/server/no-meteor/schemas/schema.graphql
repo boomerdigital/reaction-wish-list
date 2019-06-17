@@ -221,6 +221,7 @@ type CatalogProduct implements CatalogProductOrVariant & Node {
   "The shop to which this product belongs"
   shop: Shop!
 
+  "The product's id from Shopify"
   shopifyId: Float
 
   "A stock keeping unit (SKU) identifier for this product"
