@@ -1,0 +1,26 @@
+extend type Query {
+  fetchWishlistItems(accountId: ID!): Wishlist
+}
+
+extend type Mutation {
+  "Add product to wishlist"
+  addProductToWishlist(input: AddProductWishlistInput!): Wishlist!
+}
+
+input AddProductWishlistInput {
+  "The product's ID"
+  catalogItem: ID!
+
+  "The ID's ID"
+  variant: ID!
+}
+
+type WishlistItem {
+  catalogItem: CatalogItemProduct
+  variant: CatalogProductVariant
+}
+
+type Wishlist {
+  accountId: Account!
+  items: [WishlistItem]
+}
