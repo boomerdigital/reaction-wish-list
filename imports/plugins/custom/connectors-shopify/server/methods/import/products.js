@@ -272,11 +272,9 @@ export const methods = {
 
     try {
       const productCount = await shopify.product.count();
-      const numPages = 5;
+      const numPages = Math.ceil(productCount / limit);
       const pages = [...Array(numPages).keys()];
       Logger.info(`Shopify Connector is preparing to import ${productCount} products`);
-      Logger.info({numPages, pages});
-
 
       for (const page of pages) {
         Logger.debug(`Importing page ${page + 1} of ${numPages} - each page has ${limit} products`);
