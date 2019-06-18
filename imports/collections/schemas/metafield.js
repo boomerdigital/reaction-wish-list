@@ -15,7 +15,7 @@ import { registerSchema } from "@reactioncommerce/schemas";
 export const Metafield = new SimpleSchema({
   key: {
     type: String,
-    max: 30,
+    max: 50,
     optional: true
   },
   namespace: {
