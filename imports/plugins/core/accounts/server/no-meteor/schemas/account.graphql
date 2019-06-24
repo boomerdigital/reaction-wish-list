@@ -136,6 +136,15 @@ type Account implements Node {
   "The full name of the person this account represents, if known"
   name: String
 
+  "The first name of the person this account represents, if known"
+  firstName: String
+
+  "The last name of the person this account represents, if known"
+  lastName: String
+
+  "The birth date of the person this account represents, if known"
+  birthDate: DateTime
+
   "Some note about this account"
   note: String
 
