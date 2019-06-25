@@ -1,0 +1,3 @@
+[submodule "meteor-payments-braintree"]
+    path = imports/plugins/custom/meteor-payments-braintree
+    url = https://github.com/boomerdigital/meteor-payments-braintree.git
