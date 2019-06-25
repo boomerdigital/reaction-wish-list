@@ -1,0 +1,10 @@
+extend type Account {
+  "First name of user"
+  firstName: String
+
+  "Last name of user"
+  lastName: String
+
+  "The Birth Date"
+  birthDate: DateTime
+}

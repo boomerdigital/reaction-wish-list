@@ -39,6 +39,7 @@ export { default as MainDropdownContainer } from "./containers/mainDropdown";
 export { default as MessagesContainer } from "./containers/messages";
 export { default as UpdatePasswordContainer } from "./containers/updatePassword";
 export { default as VerifyAccount } from "./containers/verifyAccount";
+import "../lib/extendCoreSchema";
 
 import "./templates/accounts.html";
 
