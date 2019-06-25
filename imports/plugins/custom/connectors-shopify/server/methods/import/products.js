@@ -304,7 +304,6 @@ export const methods = {
 
             for (const shopifyTag of shopifyTags) {
               const normalizedTag = {
-                description: shopifyTag.body_html,
                 displayTitle: shopifyTag.title,
                 heroMediaUrl: shopifyTag.image && shopifyTag.image.src,
                 name: shopifyTag.title,
@@ -316,6 +315,14 @@ export const methods = {
                 updatedAt: shopifyTag.updated_at,
                 createdAt: shopifyTag.published_at
               };
+              // add tag descriptions
+              if (shopifyTag.body_html) {
+                normalizedTag.metafields = [{
+                  key: "description",
+                  value: shopifyTag.body_html,
+                  namespace: "metatag"
+                }];
+              }
 
               // If we have a cached tag for this slug, we don't need to create a new one
               if (!tagCache[normalizedTag.slug]) {

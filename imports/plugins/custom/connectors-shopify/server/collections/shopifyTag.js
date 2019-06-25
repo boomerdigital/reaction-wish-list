@@ -38,11 +38,6 @@ export const ShopifyTag = new SimpleSchema({
     type: String,
     optional: true
   },
-  // stores Shopify `body_html` property data
-  "description": {
-    type: String,
-    optional: true
-  },
   // stores shopify collection rules to handle tag searches
   "rules": {
     type: Array,
