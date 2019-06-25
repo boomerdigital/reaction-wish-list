@@ -290,27 +290,50 @@ export const methods = {
             // push tag Id's into our hashtags array for use in the product
             // We can't load all tags beforehand because Shopify doesn't have a tags API
             const hashtags = [];
-            const shopifyTags = shopifyProduct.tags.split(",");
-            for (const tag of shopifyTags) {
-              if (tag !== "") {
-                const normalizedTag = {
-                  name: tag,
-                  slug: Reaction.getSlug(tag),
-                  shopId,
-                  isTopLevel: false,
-                  updatedAt: new Date(),
-                  createdAt: new Date()
-                };
+            // eslint-disable-next-line no-await-in-loop
+            const smartTags = await shopify.smartCollection.list({
+              product_id: shopifyProduct.id,
+              limit: 250
+            });
+            // eslint-disable-next-line no-await-in-loop
+            const customTags = await shopify.customCollection.list({
+              product_id: shopifyProduct.id,
+              limit: 250
+            });
+            const shopifyTags = [...customTags, ...smartTags];
 
-                // If we have a cached tag for this slug, we don't need to create a new one
-                if (!tagCache[normalizedTag.slug]) {
-                  // this tag doesn't exist, create it, add it to our tag cache
-                  normalizedTag._id = Tags.insert(normalizedTag);
-                  tagCache[normalizedTag.slug] = normalizedTag._id;
+            for (const shopifyTag of shopifyTags) {
+              const normalizedTag = {
+                description: shopifyTag.body_html,
+                displayTitle: shopifyTag.title,
+                heroMediaUrl: shopifyTag.image && shopifyTag.image.src,
+                name: shopifyTag.title,
+                rules: shopifyTag.rules,
+                slug: shopifyTag.handle,
+                sortOrder: shopifyTag.sort_order,
+                shopId,
+                isTopLevel: false,
+                updatedAt: shopifyTag.updated_at,
+                createdAt: shopifyTag.published_at
+              };
+
+              // If we have a cached tag for this slug, we don't need to create a new one
+              if (!tagCache[normalizedTag.slug]) {
+                // this tag doesn't exist, create it, add it to our tag cache
+                normalizedTag._id = Tags.insert(normalizedTag);
+                tagCache[normalizedTag.slug] = normalizedTag._id;
+
+                if (shopifyTag.image) {
+                  saveImage(shopifyTag.image.src, {
+                    ownerId: Meteor.userId(),
+                    tagId: normalizedTag._id,
+                    shopId
+                  });
                 }
-                // push the tag's _id into hashtags from the cache
-                hashtags.push(tagCache[normalizedTag.slug]);
               }
+
+              // push the tag's _id into hashtags from the cache
+              hashtags.push(tagCache[normalizedTag.slug]);
             }
 
             // Get Shopify variants, options and ternary options
@@ -324,7 +347,7 @@ export const methods = {
             ids.push(reactionProductId);
 
             // Save the primary image to the grid and as priority 0
-            const primaryImage = {src: null, ...shopifyProduct.image}
+            const primaryImage = { src: null, ...shopifyProduct.image };
             saveImage(primaryImage.src, {
               ownerId: Meteor.userId(),
               productId: reactionProductId,
@@ -341,7 +364,7 @@ export const methods = {
                   ownerId: Meteor.userId(),
                   productId: reactionProductId,
                   shopId,
-                  priority: productImage.position-1, // Shopify index positions starting at 1.
+                  priority: productImage.position - 1, // Shopify index positions starting at 1.
                   toGrid: 1
                 });
               }
