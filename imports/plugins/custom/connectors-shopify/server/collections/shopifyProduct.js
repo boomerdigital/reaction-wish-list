@@ -18,10 +18,15 @@ import { registerSchema } from "@reactioncommerce/schemas";
  * @property {Number} shopifyId Shopify ID
  */
 export const ShopifyProduct = new SimpleSchema({
-  shopifyId: {
+  "shopifyId": {
     type: SimpleSchema.Integer,
     optional: true
-  }
+  },
+  "tags": {
+    type: Array,
+    optional: true
+  },
+  "tags.$": String
 }, { check, tracker: Tracker });
 
 registerSchema("ShopifyProduct", ShopifyProduct);

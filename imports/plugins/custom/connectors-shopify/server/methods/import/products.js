@@ -31,6 +31,7 @@ import { importImages } from "../../jobs/image-import";
  */
 function createReactionProductFromShopifyProduct(options) {
   const { shopifyProduct, shopId, hashtags } = options;
+  const tags = shopifyProduct.tags.split(",").map(Reaction.getSlug);
   const reactionProduct = {
     ancestors: [],
     createdAt: new Date(),
@@ -49,6 +50,7 @@ function createReactionProductFromShopifyProduct(options) {
     requiresShipping: true,
     shopId, // set shopId to active shopId;
     shopifyId: shopifyProduct.id.toString(), // save it here to make sync lookups cheaper
+    tags,
     template: "productDetailSimple",
     title: shopifyProduct.title,
     type: "simple",
@@ -277,11 +279,11 @@ export const methods = {
       Logger.info(`Shopify Connector is preparing to import ${productCount} products`);
 
       for (const page of pages) {
-        Logger.debug(`Importing page ${page + 1} of ${numPages} - each page has ${limit} products`);
+        Logger.info(`Importing page ${page + 1} of ${numPages} - each page has ${limit} products`);
         const shopifyProducts = await shopify.product.list({ ...opts, page }); // eslint-disable-line no-await-in-loop
         for (const shopifyProduct of shopifyProducts) {
           if (!Products.findOne({ shopifyId: shopifyProduct.id }, { fields: { _id: 1 } })) {
-            Logger.debug(`Importing ${shopifyProduct.title}`);
+            Logger.info(`Importing ${shopifyProduct.title}`);
             const price = { min: null, max: null, range: "0.00" };
             let isSoldOut = true;
             let isBackorder = false;
