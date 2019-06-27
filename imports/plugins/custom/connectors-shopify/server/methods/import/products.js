@@ -555,6 +555,31 @@ function saveProduct({shopifyProduct, shopId, hashtags, ids}) {
   );
 }
 
+async function updateProductAndTags({product, shopifyProduct, shopify, shopId, tagCache}) {
+  Logger.info("Updating product and tags...")
+  const hashtags = await saveTags({shopify, shopifyProduct, shopId, tagCache});
+  const tags = shopifyProduct.tags.split(",").map(Reaction.getSlug);
+  Products.update(
+    {
+      _id: product._id
+    },
+    {
+      $set: {
+        ancestors: [],
+        description: shopifyProduct.body_html,
+        handle: shopifyProduct.handle,
+        hashtags,
+        isVisible: true,
+        pageTitle: shopifyProduct.pageTitle,
+        productType: shopifyProduct.product_type,
+        shopifyId: shopifyProduct.id.toString(), // save it here to make sync lookups cheaper
+        tags
+      }
+    },
+    { selector: { type: "simple" }, publish: true }
+  );
+}
+
 export const methods = {
   /**
    * Imports products for the active Reaction Shop from Shopify with the API credentials setup for that shop.
@@ -604,28 +629,7 @@ export const methods = {
 
             Logger.debug(`Product ${shopifyProduct.title} added`);
           } else {
-            Logger.info("Updating product and tags...")
-            const hashtags = await saveTags({shopify, shopifyProduct, shopId, tagCache});
-            const tags = shopifyProduct.tags.split(",").map(Reaction.getSlug);
-            Products.update(
-              {
-                _id: product._id
-              },
-              {
-                $set: {
-                  ancestors: [],
-                  description: shopifyProduct.body_html,
-                  handle: shopifyProduct.handle,
-                  hashtags,
-                  isVisible: true,
-                  pageTitle: shopifyProduct.pageTitle,
-                  productType: shopifyProduct.product_type,
-                  shopifyId: shopifyProduct.id.toString(), // save it here to make sync lookups cheaper
-                  tags
-                }
-              },
-              { selector: { type: "simple" }, publish: true }
-            );
+            updateProductAndTags({product, shopifyProduct, shopify, shopId, tagCache});
             // product already exists check
             Logger.debug(`Product ${shopifyProduct.title} already exists`);
           }
