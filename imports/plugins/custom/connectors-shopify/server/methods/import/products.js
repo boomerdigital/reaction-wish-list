@@ -35,7 +35,7 @@ function createReactionProductFromShopifyProduct(options) {
   const reactionProduct = {
     ancestors: [],
     createdAt: new Date(),
-    description: shopifyProduct.body_html
+    description: shopifyProduct.body_html,
     handle: shopifyProduct.handle,
     hashtags,
     isDeleted: false,
