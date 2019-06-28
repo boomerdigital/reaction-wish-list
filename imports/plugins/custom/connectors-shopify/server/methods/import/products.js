@@ -629,7 +629,7 @@ export const methods = {
 
             Logger.debug(`Product ${shopifyProduct.title} added`);
           } else {
-            updateProductAndTags({product, shopifyProduct, shopify, shopId, tagCache});
+            // updateProductAndTags({product, shopifyProduct, shopify, shopId, tagCache});
             // product already exists check
             Logger.debug(`Product ${shopifyProduct.title} already exists`);
           }
