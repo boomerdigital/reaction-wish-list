@@ -629,8 +629,9 @@ export const methods = {
 
             Logger.debug(`Product ${shopifyProduct.title} added`);
           } else {
+            // Update existing product fields and tags
             // updateProductAndTags({product, shopifyProduct, shopify, shopId, tagCache});
-            // product already exists check
+
             Logger.debug(`Product ${shopifyProduct.title} already exists`);
           }
         } // End product loop
