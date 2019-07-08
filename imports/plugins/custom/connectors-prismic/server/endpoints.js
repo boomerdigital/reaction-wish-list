@@ -4,7 +4,7 @@ import get from "lodash/get";
 // Prismic hard limit
 const PER_PAGE = 50;
 
-Reaction.Endpoints.add("get", "/prismicTest", (req, res) => {
+Reaction.Endpoints.add("get", "/prismic/catalog", (req, res) => {
   const { query: { page = 1 } } = req;
   
   const skip = (page - 1) * PER_PAGE;
