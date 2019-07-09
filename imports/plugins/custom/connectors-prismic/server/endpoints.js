@@ -1,5 +1,6 @@
 import Reaction from "/imports/plugins/core/core/server/Reaction";
 import get from "lodash/get";
+import moment from "moment";
 
 // Prismic hard limit
 const PER_PAGE = 50;
@@ -15,7 +16,7 @@ Reaction.Endpoints.add("get", "/prismic/catalog", (req, res) => {
       title: get(doc, "product.title"),
       description: get(doc, "product.description"),
       image_url: get(doc, "media.primaryImage.URLs.thumbnail"),
-      last_update: get(doc, "updatedAt"),
+      last_update: moment().unix(get(doc, "updatedAt")),
       blob: doc
     }
   ));
