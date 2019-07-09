@@ -15,7 +15,7 @@ Reaction.Endpoints.add("get", "/prismic/catalog", (req, res) => {
       id: get(doc, "_id"),
       title: get(doc, "product.title"),
       description: get(doc, "product.description"),
-      image_url: get(doc, "media.primaryImage.URLs.thumbnail"),
+      image_url: `${process.env.ROOT_URL}${get(doc, "product.primaryImage.URLs.thumbnail")}`,
       last_update: moment().unix(get(doc, "updatedAt")),
       blob: doc
     }
