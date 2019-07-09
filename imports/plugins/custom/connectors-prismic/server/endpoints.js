@@ -9,7 +9,7 @@ Reaction.Endpoints.add("get", "/prismic/catalog", (req, res) => {
   const { query: { page = 1 } } = req;
   
   const skip = (page - 1) * PER_PAGE;
-  const cursor = Reaction.Collections.Catalog.find({}, { limit: PER_PAGE, skip });
+  const cursor = Reaction.Collections.Catalog.find({}, { limit: PER_PAGE, skip, sort: { updatedAt: - 1 } });
 
   const results = cursor.map((doc, index, cursor) => ({
       id: get(doc, "_id"),
