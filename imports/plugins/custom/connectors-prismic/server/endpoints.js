@@ -1,5 +1,6 @@
 import Reaction from "/imports/plugins/core/core/server/Reaction";
 import get from "lodash/get";
+import moment from "moment";
 
 // Prismic hard limit
 const PER_PAGE = 50;
@@ -8,14 +9,14 @@ Reaction.Endpoints.add("get", "/prismic/catalog", (req, res) => {
   const { query: { page = 1 } } = req;
   
   const skip = (page - 1) * PER_PAGE;
-  const cursor = Reaction.Collections.Catalog.find({}, { limit: PER_PAGE, skip });
+  const cursor = Reaction.Collections.Catalog.find({}, { limit: PER_PAGE, skip, sort: { updatedAt: - 1 } });
 
   const results = cursor.map((doc, index, cursor) => ({
       id: get(doc, "_id"),
       title: get(doc, "product.title"),
       description: get(doc, "product.description"),
-      image_url: get(doc, "media.primaryImage.URLs.thumbnail"),
-      last_update: get(doc, "updatedAt"),
+      image_url: `${process.env.ROOT_URL}${get(doc, "product.primaryImage.URLs.thumbnail")}`,
+      last_update: moment().unix(get(doc, "updatedAt")),
       blob: doc
     }
   ));
