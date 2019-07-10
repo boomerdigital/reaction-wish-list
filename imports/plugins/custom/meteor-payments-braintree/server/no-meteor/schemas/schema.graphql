@@ -1,0 +1,11 @@
+"Data for a Braintree card payment"
+type BraintreeCardPaymentData {
+  "The nonce token for one-time-use reference to payment"
+  nonceToken: String
+}
+
+extend union PaymentData = BraintreeCardPaymentData
+
+extend enum PaymentMethodName {
+  braintree_card
+}
