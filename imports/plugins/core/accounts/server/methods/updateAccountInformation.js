@@ -18,8 +18,22 @@ export default function updateUserInformation(email, firstName, lastName, birthD
   const user = Meteor.user();
 
   //
-  // Where does addEmail come from? Can we do this with the other fields?
-  MeteorAccounts.addEmail(user._id, email);
+  const userUpdateQuery = {
+    $set: {
+      "emails.address": email,
+      "firstName": firstName,
+      "lastName": lastName,
+      "birthDate": birthDate
+    }
+  };
 
+  Meteor.users.update({ _id: user._id }, userUpdateQuery);
+  const updatedAccountResult = Accounts.update({
+    userId
+  }, userUpdateQuery);
+
+  if (updatedAccountResult !== 1) {
+    throw new ReactionError("server-error", "Unable to update account address");
+  }
   return true;
 }
