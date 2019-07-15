@@ -6,6 +6,7 @@ export const Tag = `
   slug
   isVisible
   heroMediaUrl
+  subTagIds
   metafields {
     description
     key

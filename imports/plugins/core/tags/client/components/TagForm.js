@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { applyTheme, getRequiredValidator } from "@reactioncommerce/components/utils";
+import { Components } from "@reactioncommerce/reaction-components";
 import { Mutation } from "react-apollo";
 import { orderBy, uniqueId } from "lodash";
 import Dropzone from "react-dropzone";
@@ -24,6 +25,7 @@ import { tagListingQuery, tagProductsQuery } from "../../lib/queries";
 import { addTagMutation, updateTagMutation, removeTagMutation, setTagHeroMediaMutation } from "../../lib/mutations";
 import TagToolbar from "./TagToolbar";
 import TagProductTable from "./TagProductTable";
+import TagSubTagTable from "./TagSubTagTable";
 
 const Title = styled.h3`
   margin-bottom: 16px;
@@ -88,6 +90,17 @@ class TagForm extends Component {
     uploadPreview: null
   }
 
+  constructor(props) {
+    super(props);
+
+    this.bulkActions = [
+      { value: "add", label: i18next.t("admin.tags.add") },
+      { value: "remove", label: i18next.t("admin.tags.remove") },
+    ];
+
+    this.tableRef = React.createRef();
+  }
+
   formValue = null;
   productOrderingPriorities = {}
 
@@ -111,6 +124,7 @@ class TagForm extends Component {
       isVisible: data.isVisible || false,
       shopId,
       heroMediaUrl: data.heroMediaUrl,
+      subTagIds: data.subTagIds || [],
       metafields: [
         { key: "keywords", value: data.keywords || "", namespace: "metatag" },
         { key: "description", value: data.description || "", namespace: "metatag" },
@@ -315,6 +329,38 @@ class TagForm extends Component {
     );
   }
 
+  handleCellClick = ({ column, rowData }) => {
+    if (column.id === "edit") {
+      this.setState({
+        selection: []
+      });
+
+      this.props.history.push(`/operator/tags/edit/${rowData._id}`);
+    }
+  }
+
+  handleBulkAction = async (action, itemIds) => {
+    const { client, shopId } = this.props;
+    let mutation = updateTagMutation;
+
+    const promises = itemIds.map((item) => {
+      let input = {
+        id: item._id,
+        subTagIds: itemIds,
+        shopId
+      };
+
+      return client.mutate({
+        mutation,
+        variables: {
+          input
+        }
+      });
+    });
+
+    await Promise.all(promises);
+  }
+
   get tagData() {
     const { tag } = this.props;
 
@@ -334,6 +380,66 @@ class TagForm extends Component {
     }
 
     return {};
+  }
+
+  renderTable() {
+    const { shopId, isLoadingPrimaryShopId } = this.props;
+
+    if (isLoadingPrimaryShopId) return null;
+
+    const filteredFields = ["slug", "displayTitle", "name"];
+    const noDataMessage = i18next.t("admin.tags.tableText.noDataMessage");
+
+    // helper adds a class to every grid row
+    const customRowMetaData = {
+      bodyCssClassName: () => "email-grid-row"
+    };
+
+    // add i18n handling to headers
+    const customColumnMetadata = [];
+    filteredFields.forEach((field) => {
+      let colWidth;
+      let colStyle;
+      let colClassName;
+      let headerLabel = i18next.t(`admin.tags.headers.${field}`);
+
+      if (field === "edit") {
+        colWidth = 44;
+        colStyle = { textAlign: "center", cursor: "pointer" };
+        headerLabel = "";
+      }
+
+      const columnMeta = {
+        accessor: field,
+        Header: headerLabel,
+        Cell: (row) => (
+          <Components.TagDataTableColumn row={row} />
+        ),
+        className: colClassName,
+        width: colWidth,
+        style: colStyle,
+        headerStyle: { textAlign: "left" }
+      };
+      customColumnMetadata.push(columnMeta);
+    });
+
+    return (
+      <TagSubTagTable
+        ref={this.tableRef}
+        bulkActions={this.bulkActions}
+        query={tagListingQuery}
+        variables={{ shopId }}
+        dataKey="tags"
+        onBulkAction={this.handleBulkAction}
+        onCellClick={this.handleCellClick}
+        showFilter={true}
+        rowMetadata={customRowMetaData}
+        filteredFields={filteredFields}
+        noDataMessage={noDataMessage}
+        columnMetadata={customColumnMetadata}
+        externalLoadingComponent={Components.Loading}
+      />
+    );
   }
 
   render() {
@@ -400,6 +506,7 @@ class TagForm extends Component {
                   <Tab label={i18next.t("admin.tags.form.tagDetails")} />
                   <Tab label={i18next.t("admin.tags.form.metadata")} />
                   {tag._id && <Tab label={i18next.t("admin.tags.form.products")} />}
+                  {tag._id && <Tab label={"SubTags"} />}
                 </Tabs>
                 <Divider />
               </ContentGroup>
@@ -429,17 +536,6 @@ class TagForm extends Component {
                         >
                           <TextInput id={slugInputId} isReadOnly name="slug" placeholder={i18next.t("admin.tags.form.slugPlaceholder")} />
                           <ErrorsBlock names={["slug"]} />
-                        </PaddedField>
-
-                        <PaddedField
-                          name="isVisible"
-                          labelFor={isVisibleInputId}
-                        >
-                          <Checkbox
-                            id={isVisibleInputId}
-                            name="isVisible"
-                            label={i18next.t("admin.tags.form.isVisible")}
-                          />
                         </PaddedField>
                       </Grid>
                       <Grid item md={6}>
@@ -547,6 +643,12 @@ class TagForm extends Component {
                       shopId={shopId}
                       tagId={tag._id}
                     />
+                  }
+
+                  {currentTab === 3 &&
+                    <div>
+                      {this.renderTable()}
+                    </div>
                   }
 
                   <CardActions disableActionSpacing>

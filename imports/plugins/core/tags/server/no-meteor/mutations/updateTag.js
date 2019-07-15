@@ -15,7 +15,9 @@ const inputSchema = new SimpleSchema({
     value: { type: String }
   }),
   "featuredProductIds": { type: Array, optional: true },
-  "featuredProductIds.$": String
+  "featuredProductIds.$": String,
+  "subTagIds": { type: Array, optional: true },
+  "subTagIds.$": String
 }, { requiredByDefault: false });
 
 /**
@@ -52,7 +54,8 @@ export default async function updateTag(context, input) {
     displayTitle: input.displayTitle,
     isVisible: input.isVisible,
     metafields: (metafields.length && metafields) || null,
-    featuredProductIds: input.featuredProductIds
+    featuredProductIds: input.featuredProductIds,
+    subTagIds: input.subTagIds
   };
 
   if (typeof input.heroMediaUrl === "string" && input.heroMediaUrl.length) {
