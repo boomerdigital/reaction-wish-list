@@ -102,7 +102,7 @@ input UpdateTagInput {
   featuredProductIds: [ID]
 
   "A list of the IDs of subtags from this tag"
-  subTagIds: [ID]
+  relatedTagIds: [ID]
 
   "Hero media URL"
   heroMediaUrl: String

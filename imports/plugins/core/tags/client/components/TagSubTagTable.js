@@ -468,7 +468,6 @@ class TagSubTagTable extends Component {
     return (
       <Query query={query} variables={variables}>
         {({ data, fetchMore, refetch }) => {
-          console.log(data)
           const result = (data[otherProps.dataKey] && data[otherProps.dataKey].nodes) || [];
           const resultCount = (Array.isArray(result) && result.length) || 0;
           const pageInfo = pagination({
