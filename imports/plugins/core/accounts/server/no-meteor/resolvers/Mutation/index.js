@@ -5,7 +5,7 @@ import removeAccountAddressBookEntry from "./removeAccountAddressBookEntry";
 import removeAccountFromGroup from "./removeAccountFromGroup";
 import setAccountProfileCurrency from "./setAccountProfileCurrency";
 import updateAccountAddressBookEntry from "./updateAccountAddressBookEntry";
-import updateAccount from "./updateAccount";
+import updateAccountEntry from "./updateAccountEntry";
 
 export default {
   addAccountAddressBookEntry,
@@ -15,5 +15,5 @@ export default {
   removeAccountFromGroup,
   setAccountProfileCurrency,
   updateAccountAddressBookEntry,
-  updateAccount
+  updateAccountEntry
 };

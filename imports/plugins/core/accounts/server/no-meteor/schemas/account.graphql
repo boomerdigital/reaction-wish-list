@@ -87,10 +87,16 @@ input RemoveAccountEmailRecordInput {
 "The input object for mutating an existing `Account`"
 input AccountUpdatesInput {
   currencyCode: String!
+
+  firstName: String!
+
+  lastName: String!
+
+  birthDate: Date
 }
 
 "Defines how an account should be updated, and which account"
-input UpdateAccountInput {
+input UpdateAccountEntryInput {
   "The account ID"
   accountId: ID!
 
@@ -237,6 +243,15 @@ type SetAccountProfileCurrencyPayload {
   clientMutationId: String
 }
 
+"The response from the `updateAccount` mutation"
+type UpdateAccountEntryPayload {
+  "The updated account"
+  account: Account
+
+  "The same string you sent with the mutation params, for matching mutation calls with their responses"
+  clientMutationId: String
+}
+
 extend type Mutation {
   "Add a new address to the `addressBook` field for an account"
   addAccountAddressBookEntry(input: AddAccountAddressBookEntryInput!): AddAccountAddressBookEntryPayload
@@ -255,6 +270,9 @@ extend type Mutation {
 
   "Remove an address that exists in the `addressBook` field for an account"
   updateAccountAddressBookEntry(input: UpdateAccountAddressBookEntryInput!): UpdateAccountAddressBookEntryPayload
+
+  "update account information"
+  updateAccountEntry(input: UpdateAccountEntryInput!): UpdateAccountEntryPayload
 }
 
 extend type Query {

@@ -12,11 +12,10 @@ export default async function updateAccount(context, input, accountUserId) {
 
   const { value: updatedAccount } = await Accounts.findOneAndUpdate(
     { userId },
-    {
-    $set: {
+    { $set: {
       firstName, lastName, birthDate
     }
-  );
+  });
 
   if (!updatedAccount) {
     throw new ReactionError("server-error", "Unable to add address to account");
