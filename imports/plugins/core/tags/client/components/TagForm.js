@@ -471,7 +471,7 @@ class TagForm extends Component {
                         {!tag.isTopLevel &&
                           <TagParentTagSelect
                             shopId={shopId}
-                            tagId={tag._id}
+                            tag={tag}
                           />
                         }
                       </Grid>

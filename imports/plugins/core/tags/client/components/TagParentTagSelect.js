@@ -1,14 +1,24 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
+import { uniqueId } from "lodash";
 import { topLevelTagsQuery } from "../../lib/queries";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@reactioncommerce/components/Select/v1";
+import { Tags } from "/lib/collections";
+import { TagHelpers } from "/imports/plugins/core/ui-tagnav/client/helpers";
 
 class TagParentTagSelect extends Component {
   static propTypes = {
     shopId: PropTypes.string.isRequired,
-    tagId: PropTypes.string
+    tag: PropTypes.object
+  }
+
+  uniqueInstanceIdentifier = uniqueId("URLRedirectEditForm");
+
+  onChange = (parentTagId) => {
+    const { tag } = this.props;
+
+    TagHelpers.updateTag(tag._id, tag.name, parentTagId);
   }
 
   render() {
@@ -27,6 +37,15 @@ class TagParentTagSelect extends Component {
             return null;
           }
 
+          console.log(tags)
+
+          const relatedTagId = `relatedTagIdsId_${this.uniqueInstanceIdentifier}`;
+          const tagOptions = (tags.nodes || []).map((tag) => ({
+            label: tag.displayTitle,
+            value: tag._id
+          }));
+
+
           return (
             <Fragment>
               <ul>
@@ -35,16 +54,11 @@ class TagParentTagSelect extends Component {
                 })}
               </ul>
               <Select
-                // value={values.age}
-                // onChange={handleChange}
-                inputProps={{
-                  name: 'relatedTagIds',
-                }}
-              >
-                {tags.nodes.map((tag) => {
-                  <MenuItem value={tag._id}>{tag.slug}</MenuItem>
-                })}
-              </Select>
+                id={relatedTagId}
+                name="relatedTagId"
+                options={tagOptions}
+                onChange={this.onChange}
+              />
             </Fragment>
           );
         }}
