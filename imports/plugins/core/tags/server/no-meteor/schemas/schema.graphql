@@ -86,6 +86,9 @@ input UpdateTagInput {
   "Whether the tag is visible"
   isVisible: Boolean!
 
+  "Whether the tag is top level"
+  isTopLevel: Boolean!
+
   "Unique name of the tag"
   name: String!
 

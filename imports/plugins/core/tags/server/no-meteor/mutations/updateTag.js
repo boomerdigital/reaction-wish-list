@@ -8,6 +8,7 @@ const inputSchema = new SimpleSchema({
   "displayTitle": String,
   "heroMediaUrl": String,
   "isVisible": Boolean,
+  "isTopLevel": Boolean,
   "metafields": { type: Array, optional: true },
   "metafields.$": new SimpleSchema({
     key: { type: String, max: 30 },
@@ -53,6 +54,7 @@ export default async function updateTag(context, input) {
     name: input.name,
     displayTitle: input.displayTitle,
     isVisible: input.isVisible,
+    isTopLevel: input.isTopLevel,
     metafields: (metafields.length && metafields) || null,
     featuredProductIds: input.featuredProductIds,
     relatedTagIds: input.relatedTagIds

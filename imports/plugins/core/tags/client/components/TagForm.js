@@ -110,6 +110,7 @@ class TagForm extends Component {
       name: data.name,
       displayTitle: data.displayTitle,
       isVisible: data.isVisible || false,
+      isTopLevel: data.isTopLevel || false,
       shopId,
       heroMediaUrl: data.heroMediaUrl,
       relatedTagIds: data.relatedTagId,
@@ -344,6 +345,7 @@ class TagForm extends Component {
     const { currentTab } = this.state;
     const nameInputId = `name_${this.uniqueInstanceIdentifier}`;
     const slugInputId = `slug_${this.uniqueInstanceIdentifier}`;
+    const isTopLevelInputId = `isTopLevel_${this.uniqueInstanceIdentifier}`;
     const heroMediaUrlInputId = `heroMediaUrl_${this.uniqueInstanceIdentifier}`;
     const displayTitleInputId = `displayTitle_${this.uniqueInstanceIdentifier}`;
     const keywordsInputId = `keywords_${this.uniqueInstanceIdentifier}`;
@@ -431,6 +433,15 @@ class TagForm extends Component {
                         >
                           <TextInput id={slugInputId} isReadOnly name="slug" placeholder={i18next.t("admin.tags.form.slugPlaceholder")} />
                           <ErrorsBlock names={["slug"]} />
+                        </PaddedField>
+
+                        <PaddedField
+                          name="isTopLevel"
+                          label="Is Top Level?"
+                          labelFor={isTopLevelInputId}
+                        >
+                          <Checkbox name="isTopLevel" label="Is Top Level?" />
+                          <ErrorsBlock names={["isTopLevel"]} />
                         </PaddedField>
                       </Grid>
                       <Grid item md={6}>
