@@ -7,7 +7,7 @@ import { FileRecord } from "@reactioncommerce/file-collections";
 import withOpaqueShopId from "/imports/plugins/core/graphql/lib/hocs/withOpaqueShopId";
 import { Query, withApollo } from "react-apollo";
 import TagForm from "../components/TagForm";
-import { getTag, tagListingQuery } from "../../lib/queries";
+import { getTag, tagListingQuery, topLevelTagsQuery } from "../../lib/queries";
 import { setTagHeroMediaMutation } from "../../lib/mutations";
 
 class TagFormPageWithData extends Component {
@@ -68,12 +68,20 @@ class TagFormPageWithData extends Component {
     fileRecord.upload({})
       // We insert only AFTER the server has confirmed that all chunks were uploaded
       .then(async () => {
-        const refetchQueries = [{
-          query: tagListingQuery,
-          variables: {
-            shopId
+        const refetchQueries = [
+          {
+            query: tagListingQuery,
+            variables: {
+              shopId
+            }
+          },
+          {
+            query: topLevelTagsQuery,
+            variables: {
+              shopId
+            }
           }
-        }];
+        ];
 
         await client.mutate({
           mutation: setTagHeroMediaMutation,

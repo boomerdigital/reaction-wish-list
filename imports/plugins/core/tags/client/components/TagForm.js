@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { applyTheme, getRequiredValidator } from "@reactioncommerce/components/utils";
 import { Components } from "@reactioncommerce/reaction-components";
-import { Mutation } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { orderBy, uniqueId } from "lodash";
 import Dropzone from "react-dropzone";
 import styled from "styled-components";
@@ -21,7 +21,7 @@ import CardContent from "@material-ui/core/CardContent";
 import MUICardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import { i18next } from "/client/api";
-import { tagListingQuery, tagProductsQuery } from "../../lib/queries";
+import { tagListingQuery, tagProductsQuery, topLevelTagsQuery } from "../../lib/queries";
 import { addTagMutation, updateTagMutation, removeTagMutation, setTagHeroMediaMutation } from "../../lib/mutations";
 import TagToolbar from "./TagToolbar";
 import TagProductTable from "./TagProductTable";
@@ -98,12 +98,20 @@ class TagForm extends Component {
     const { shopId } = this.props;
     const isNew = !data._id;
 
-    const refetchQueries = [{
-      query: tagListingQuery,
-      variables: {
-        shopId
+    const refetchQueries = [
+      {
+        query: tagListingQuery,
+        variables: {
+          shopId
+        }
+      },
+      {
+        query: topLevelTagsQuery,
+        variables: {
+          shopId
+        }
       }
-    }];
+    ];
 
     const input = {
       id: data._id,
@@ -337,6 +345,26 @@ class TagForm extends Component {
     }
 
     return {};
+  }
+
+  listTopLevelTags() {
+    const { shopId } = this.props;
+
+    return (
+      <Query query={topLevelTagsQuery} variables={{ shopId }} fetchPolicy="network-only">
+        {({ data, fetchMore }) => {
+          debugger
+          const tags = data.tags;
+          return(
+            <ul>
+              {tags.map((tag) => {
+                return <li>{tag}</li>
+              })}
+            </ul>
+          )
+        }}
+      </Query>
+    );
   }
 
   render() {
