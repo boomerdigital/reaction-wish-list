@@ -25,6 +25,7 @@ import { tagListingQuery, tagProductsQuery, topLevelTagsQuery } from "../../lib/
 import { addTagMutation, updateTagMutation, removeTagMutation, setTagHeroMediaMutation } from "../../lib/mutations";
 import TagToolbar from "./TagToolbar";
 import TagProductTable from "./TagProductTable";
+import TagParentTagSelect from "./TagParentTagSelect";
 
 const Title = styled.h3`
   margin-bottom: 16px;
@@ -121,7 +122,7 @@ class TagForm extends Component {
       isTopLevel: data.isTopLevel || false,
       shopId,
       heroMediaUrl: data.heroMediaUrl,
-      relatedTagIds: data.relatedTagId,
+      // relatedTagIds: data.relatedTagId,
       metafields: [
         { key: "keywords", value: data.keywords || "", namespace: "metatag" },
         { key: "description", value: data.description || "", namespace: "metatag" },
@@ -347,26 +348,6 @@ class TagForm extends Component {
     return {};
   }
 
-  listTopLevelTags() {
-    const { shopId } = this.props;
-
-    return (
-      <Query query={topLevelTagsQuery} variables={{ shopId }} fetchPolicy="network-only">
-        {({ data, fetchMore }) => {
-          debugger
-          const tags = data.tags;
-          return(
-            <ul>
-              {tags.map((tag) => {
-                return <li>{tag}</li>
-              })}
-            </ul>
-          )
-        }}
-      </Query>
-    );
-  }
-
   render() {
     const tag = this.tagData;
     const { shopId } = this.props;
@@ -485,6 +466,14 @@ class TagForm extends Component {
                           <TextInput id={heroMediaUrlInputId} name="heroMediaUrl" placeholder={i18next.t("admin.tags.form.heroMediaUrlPlaceholder")} />
                           <ErrorsBlock names={["heroMediaUrl"]} />
                         </PaddedField>
+                      </Grid>
+                      <Grid item xs={12}>
+                        {!tag.isTopLevel &&
+                          <TagParentTagSelect
+                            shopId={shopId}
+                            tagId={tag._id}
+                          />
+                        }
                       </Grid>
                     </Grid>
                   }
