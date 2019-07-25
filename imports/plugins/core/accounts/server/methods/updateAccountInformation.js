@@ -17,10 +17,10 @@ export default function updateUserInformation(email, firstName, lastName, birthD
   check(birthDate, Match.Optional(Date));
   const user = Meteor.user();
 
-  //
+  console.log(email)
   const userUpdateQuery = {
     $set: {
-      "emails.address": email,
+      "emails[0].address": email,
       "firstName": firstName,
       "lastName": lastName,
       "birthDate": birthDate

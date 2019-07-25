@@ -86,13 +86,15 @@ input RemoveAccountEmailRecordInput {
 
 "The input object for mutating an existing `Account`"
 input AccountUpdatesInput {
-  currencyCode: String!
+  currencyCode: String
 
-  firstName: String!
+  firstName: String
 
-  lastName: String!
+  lastName: String
 
   birthDate: Date
+
+  email: Email!
 }
 
 "Defines how an account should be updated, and which account"
