@@ -12,7 +12,7 @@ export default function updateUserInformation(primaryEmailAddress, firstName, la
   console.log(primaryEmailAddress)
   const userUpdateQuery = {
     $set: {
-      "emails[0].address": primaryEmailAddress,
+      "emails.0.address": primaryEmailAddress,
       "firstName": firstName,
       "lastName": lastName,
       "birthDate": birthDate

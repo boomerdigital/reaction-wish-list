@@ -13,7 +13,7 @@ export default async function updateAccount(context, input, accountUserId) {
   const { value: updatedAccount } = await Accounts.findOneAndUpdate(
     { userId },
     { $set: {
-      primaryEmailAddress, firstName, lastName, birthDate
+      "emails.0.address": primaryEmailAddress, firstName, lastName, birthDate
     }
   });
 
