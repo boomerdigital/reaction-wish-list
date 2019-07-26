@@ -14,6 +14,7 @@ import removeUserPermissions from "./removeUserPermissions";
 import sendResetPasswordEmail from "./sendResetPasswordEmail";
 import setProfileCurrency from "./setProfileCurrency";
 import setUserPermissions from "./setUserPermissions";
+import updateAccountInformation from "./updateAccountInformation";
 import updateEmailAddress from "./updateEmailAddress";
 import updateServiceConfiguration from "./updateServiceConfiguration";
 import validateAddress from "./validateAddress";
@@ -49,6 +50,7 @@ export default {
   "accounts/setProfileCurrency": setProfileCurrency,
   "accounts/setUserPermissions": setUserPermissions,
   "accounts/updateEmailAddress": updateEmailAddress,
+  "accounts/updateAccountInformation": updateAccountInformation,
   "accounts/updateServiceConfiguration": updateServiceConfiguration,
   "accounts/validateAddress": validateAddress,
   "accounts/verifyAccount": verifyAccount,
