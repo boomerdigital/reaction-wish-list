@@ -2,25 +2,17 @@ import { Meteor } from "meteor/meteor";
 import { Accounts as MeteorAccounts } from "meteor/accounts-base";
 import { check } from "meteor/check";
 
-/**
- * @name accounts/updateAccountInformation
- * @memberof Accounts/Methods
- * @method
- * @summary Update a user's email address
- * @param {String} email - user email
- * @returns {Boolean} - return True on success
- */
-export default function updateUserInformation(email, firstName, lastName, birthDate) {
-  check(email, Match.Optional(String));
+export default function updateUserInformation(primaryEmailAddress, firstName, lastName, birthDate) {
+  check(primaryEmailAddress, Match.Optional(String));
   check(firstName, Match.Optional(String));
   check(lastName, Match.Optional(String));
   check(birthDate, Match.Optional(Date));
   const user = Meteor.user();
 
-  console.log(email)
+  console.log(primaryEmailAddress)
   const userUpdateQuery = {
     $set: {
-      "emails[0].address": email,
+      "emails[0].address": primaryEmailAddress,
       "firstName": firstName,
       "lastName": lastName,
       "birthDate": birthDate

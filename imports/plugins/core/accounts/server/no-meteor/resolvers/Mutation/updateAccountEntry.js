@@ -6,7 +6,7 @@ export default async function updateAccountEntry(parentResult, { input }, contex
     clientMutationId = null,
     accountId: opaqueAccountId,
     updates: {
-      email,
+      primaryEmailAddress,
       firstName,
       lastName,
       birthDate
@@ -17,7 +17,7 @@ export default async function updateAccountEntry(parentResult, { input }, contex
 
   const account = await context.mutations.updateAccount(context, {
     accountId,
-    email,
+    primaryEmailAddress,
     firstName,
     lastName,
     birthDate

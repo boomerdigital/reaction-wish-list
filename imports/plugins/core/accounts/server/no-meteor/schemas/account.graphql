@@ -94,7 +94,7 @@ input AccountUpdatesInput {
 
   birthDate: Date
 
-  email: Email!
+  primaryEmailAddress: Email!
 }
 
 "Defines how an account should be updated, and which account"
