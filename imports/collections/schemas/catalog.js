@@ -276,7 +276,8 @@ export const VariantBaseSchema = new SimpleSchema({
   "shopifyId": {
     type: Number,
     index: 1,
-    label: "Shopify's id"
+    label: "Shopify's id",
+    optional: true
   },
   "sku": {
     type: String,
@@ -520,6 +521,7 @@ export const CatalogProduct = new SimpleSchema({
   "shopifyId": {
     type: Number,
     label: "Product ShopifyId",
+    optional: true,
     index: 1
   },
   "sku": {
