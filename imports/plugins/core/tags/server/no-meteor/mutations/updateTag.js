@@ -57,7 +57,7 @@ export default async function updateTag(context, input) {
     isTopLevel: input.isTopLevel,
     metafields: (metafields.length && metafields) || null,
     featuredProductIds: input.featuredProductIds,
-    relatedTagIds: input.relatedTagIds
+    relatedTagIds: input.subTagIds
   };
 
   if (typeof input.heroMediaUrl === "string" && input.heroMediaUrl.length) {

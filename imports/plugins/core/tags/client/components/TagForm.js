@@ -122,7 +122,7 @@ class TagForm extends Component {
       isTopLevel: data.isTopLevel || false,
       shopId,
       heroMediaUrl: data.heroMediaUrl,
-      // relatedTagIds: data.relatedTagId,
+      subTagIds: data.subTagIds,
       metafields: [
         { key: "keywords", value: data.keywords || "", namespace: "metatag" },
         { key: "description", value: data.description || "", namespace: "metatag" },
@@ -366,6 +366,7 @@ class TagForm extends Component {
     const fbAppIdInputId = `fbAppId_${this.uniqueInstanceIdentifier}`;
     const ogLocaleInputId = `ogLocale_${this.uniqueInstanceIdentifier}`;
     const isVisibleInputId = `isVisible_${this.uniqueInstanceIdentifier}`;
+    const subTagId = `subTagIds_${this.uniqueInstanceIdentifier}`;
 
     let title = i18next.t("admin.tags.form.formTitleNew");
     let mutation = addTagMutation;
@@ -468,12 +469,18 @@ class TagForm extends Component {
                         </PaddedField>
                       </Grid>
                       <Grid item xs={12}>
-                        {!tag.isTopLevel &&
-                          <TagParentTagSelect
-                            shopId={shopId}
-                            tag={tag}
-                          />
-                        }
+                        <PaddedField
+                          name="subTagIds"
+                          label="Parent tag"
+                          labelFor={subTagId}
+                        >
+                          {!tag.isTopLevel &&
+                            <TagParentTagSelect
+                              shopId={shopId}
+                              tag={tag}
+                            />
+                          }
+                        </PaddedField>
                       </Grid>
                     </Grid>
                   }

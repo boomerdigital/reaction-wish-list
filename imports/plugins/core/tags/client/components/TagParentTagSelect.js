@@ -54,8 +54,7 @@ class TagParentTagSelect extends Component {
                 })}
               </ul>
               <Select
-                id={relatedTagId}
-                name="relatedTagId"
+                name="subTagIds"
                 options={tagOptions}
                 onChange={this.onChange}
               />
