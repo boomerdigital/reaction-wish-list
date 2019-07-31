@@ -27,6 +27,11 @@ Reaction.registerPackage({
     registerPluginHandler: [registerPluginHandler],
     startup: [startup]
   },
+  catalog: {
+    firstName: ["firstName"],
+    lastName: ["lastName"],
+    birthDate: ["birthDate"]
+  },
   graphQL: {
     resolvers,
     schemas
