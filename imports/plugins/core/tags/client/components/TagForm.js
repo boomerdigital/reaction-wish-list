@@ -26,7 +26,6 @@ import { tagListingQuery, tagProductsQuery, topLevelTagsQuery } from "../../lib/
 import { addTagMutation, updateTagMutation, removeTagMutation, setTagHeroMediaMutation } from "../../lib/mutations";
 import TagToolbar from "./TagToolbar";
 import TagProductTable from "./TagProductTable";
-// import TagParentTagSelect from "./TagParentTagSelect";
 
 const Title = styled.h3`
   margin-bottom: 16px;
@@ -115,6 +114,13 @@ class TagForm extends Component {
       }
     ];
 
+    let subTagId;
+    if (data.isTopLevel || data.subTagIds.length === 0) {
+      subTagId = [];
+    } else {
+      subTagId = [data.subTagIds]
+    }
+
     const input = {
       id: data._id,
       name: data.name,
@@ -123,7 +129,7 @@ class TagForm extends Component {
       isTopLevel: data.isTopLevel || false,
       shopId,
       heroMediaUrl: data.heroMediaUrl,
-      subTagIds: [data.subTagIds],
+      subTagIds: subTagId,
       metafields: [
         { key: "keywords", value: data.keywords || "", namespace: "metatag" },
         { key: "description", value: data.description || "", namespace: "metatag" },
@@ -481,15 +487,10 @@ class TagForm extends Component {
                           labelFor={subTagId}
                         >
                           {!tag.isTopLevel &&
-                            // <TagParentTagSelect
-                            //   shopId={shopId}
-                            //   tag={tag}
-                            // />
                             <Select
                               id={subTagId}
                               name="subTagIds"
                               options={tagOptions}
-                              // onChange={this.onChange}
                             />
                           }
                         </PaddedField>
