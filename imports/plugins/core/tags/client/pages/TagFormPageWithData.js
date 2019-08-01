@@ -108,38 +108,48 @@ class TagFormPageWithData extends Component {
   render() {
     const { client, shopId } = this.props;
 
-    // Id there's a tagId param, then try to find
-    // that tag and render the edit form
-    if (this.tagId) {
-      return (
-        <Query query={getTag} variables={{ slugOrId: this.tagId }} fetchPolicy="network-only">
-          {({ data }) => {
-            const tag = data && data.tag;
-
-            // Render the edit tag form
-            return (
-              <TagForm
-                client={client}
-                shopId={shopId}
-                tag={tag}
-                onCancel={this.handleCancel}
-                onHeroUpload={this.handleUpload}
-              />
-            );
-          }}
-        </Query>
-      );
-    }
-
-    // Render the create tag form
     return (
-      <TagForm
-        client={client}
-        shopId={shopId}
-        onHeroUpload={this.handleUpload}
-        onCancel={this.handleCancel}
-        onCreate={this.handleCreate}
-      />
+      <Query query={topLevelTagsQuery} variables={{ shopId }} fetchPolicy="network-only">
+        {({ data: topLevelTagData }) => {
+          const topLevelTags = topLevelTagData && topLevelTagData.tags;
+
+          // Id there's a tagId param, then try to find
+          // that tag and render the edit form
+          if (this.tagId) {
+            return (
+              <Query query={getTag} variables={{ slugOrId: this.tagId }} fetchPolicy="network-only">
+                {({ data: tagData }) => {
+                  const tag = tagData && tagData.tag;
+
+                  // Render the edit tag form
+                  return (
+                    <TagForm
+                      client={client}
+                      shopId={shopId}
+                      tag={tag}
+                      topLevelTags={topLevelTags}
+                      onCancel={this.handleCancel}
+                      onHeroUpload={this.handleUpload}
+                    />
+                  );
+                }}
+              </Query>
+            );
+          }
+
+          // Render the create tag form
+          return (
+            <TagForm
+              client={client}
+              shopId={shopId}
+              topLevelTags={topLevelTags}
+              onHeroUpload={this.handleUpload}
+              onCancel={this.handleCancel}
+              onCreate={this.handleCreate}
+            />
+          );
+        }}
+      </Query>
     );
   }
 }

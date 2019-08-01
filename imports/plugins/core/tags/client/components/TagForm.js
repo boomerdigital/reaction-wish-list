@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { applyTheme, getRequiredValidator } from "@reactioncommerce/components/utils";
 import { Components } from "@reactioncommerce/reaction-components";
 import { Query, Mutation } from "react-apollo";
-import { orderBy, uniqueId } from "lodash";
+import { orderBy, uniqueId, get } from "lodash";
 import Dropzone from "react-dropzone";
 import styled from "styled-components";
 import { Form } from "reacto-form";
@@ -12,6 +12,7 @@ import Checkbox from "@reactioncommerce/components/Checkbox/v1";
 import ErrorsBlock from "@reactioncommerce/components/ErrorsBlock/v1";
 import Field from "@reactioncommerce/components/Field/v1";
 import TextInput from "@reactioncommerce/components/TextInput/v1";
+import Select from "@reactioncommerce/components/Select/v1";
 import Grid from "@material-ui/core/Grid";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -25,7 +26,7 @@ import { tagListingQuery, tagProductsQuery, topLevelTagsQuery } from "../../lib/
 import { addTagMutation, updateTagMutation, removeTagMutation, setTagHeroMediaMutation } from "../../lib/mutations";
 import TagToolbar from "./TagToolbar";
 import TagProductTable from "./TagProductTable";
-import TagParentTagSelect from "./TagParentTagSelect";
+// import TagParentTagSelect from "./TagParentTagSelect";
 
 const Title = styled.h3`
   margin-bottom: 16px;
@@ -122,7 +123,7 @@ class TagForm extends Component {
       isTopLevel: data.isTopLevel || false,
       shopId,
       heroMediaUrl: data.heroMediaUrl,
-      subTagIds: data.subTagIds,
+      subTagIds: [data.subTagIds],
       metafields: [
         { key: "keywords", value: data.keywords || "", namespace: "metatag" },
         { key: "description", value: data.description || "", namespace: "metatag" },
@@ -350,7 +351,7 @@ class TagForm extends Component {
 
   render() {
     const tag = this.tagData;
-    const { shopId } = this.props;
+    const { shopId, topLevelTags } = this.props;
     const { currentTab } = this.state;
     const nameInputId = `name_${this.uniqueInstanceIdentifier}`;
     const slugInputId = `slug_${this.uniqueInstanceIdentifier}`;
@@ -375,6 +376,11 @@ class TagForm extends Component {
       title = i18next.t("admin.tags.form.formTitleUpdate");
       mutation = updateTagMutation;
     }
+
+    const tagOptions = (get(topLevelTags, "nodes") || []).map((t) => ({
+      label: t.displayTitle,
+      value: t._id
+    }));
 
     return (
       <Mutation mutation={mutation}>
@@ -475,9 +481,15 @@ class TagForm extends Component {
                           labelFor={subTagId}
                         >
                           {!tag.isTopLevel &&
-                            <TagParentTagSelect
-                              shopId={shopId}
-                              tag={tag}
+                            // <TagParentTagSelect
+                            //   shopId={shopId}
+                            //   tag={tag}
+                            // />
+                            <Select
+                              id={subTagId}
+                              name="subTagIds"
+                              options={tagOptions}
+                              // onChange={this.onChange}
                             />
                           }
                         </PaddedField>
