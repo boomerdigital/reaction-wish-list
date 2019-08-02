@@ -118,7 +118,7 @@ class TagForm extends Component {
     if (data.isTopLevel || data.subTagIds.length === 0) {
       subTagId = [];
     } else {
-      subTagId = [data.subTagIds]
+      subTagId = [data.subTagIds];
     }
 
     const input = {
@@ -384,7 +384,7 @@ class TagForm extends Component {
     }
 
     const tagOptions = (get(topLevelTags, "nodes") || []).map((t) => ({
-      label: t.displayTitle,
+      label: t.displayTitle || t.name,
       value: t._id
     }));
 
@@ -491,6 +491,7 @@ class TagForm extends Component {
                               id={subTagId}
                               name="subTagIds"
                               options={tagOptions}
+                              value={tag.subTagIds && tag.subTagIds[0]}
                             />
                           }
                         </PaddedField>
