@@ -114,13 +114,6 @@ class TagForm extends Component {
       }
     ];
 
-    let subTagId;
-    if (data.isTopLevel || data.subTagIds.length === 0) {
-      subTagId = [];
-    } else {
-      subTagId = [data.subTagIds];
-    }
-
     const input = {
       id: data._id,
       name: data.name,
@@ -129,7 +122,6 @@ class TagForm extends Component {
       isTopLevel: data.isTopLevel || false,
       shopId,
       heroMediaUrl: data.heroMediaUrl,
-      subTagIds: subTagId,
       metafields: [
         { key: "keywords", value: data.keywords || "", namespace: "metatag" },
         { key: "description", value: data.description || "", namespace: "metatag" },
@@ -143,6 +135,12 @@ class TagForm extends Component {
     };
 
     if (!isNew) {
+      if (data.isTopLevel || data.subTagIds.length === 0) {
+        input.subTagIds = [];
+      } else {
+        input.subTagIds = [data.subTagIds];
+      }
+
       if (Object.keys(this.productOrderingPriorities).length) {
         const featured = [];
         Object.keys(this.productOrderingPriorities).forEach((productId) => {
@@ -357,6 +355,7 @@ class TagForm extends Component {
 
   render() {
     const tag = this.tagData;
+    const isNew = !tag._id;
     const { shopId, topLevelTags } = this.props;
     const { currentTab } = this.state;
     const nameInputId = `name_${this.uniqueInstanceIdentifier}`;
@@ -486,7 +485,7 @@ class TagForm extends Component {
                           label="Parent tag"
                           labelFor={subTagId}
                         >
-                          {!tag.isTopLevel &&
+                          {(!isNew && !tag.isTopLevel) &&
                             <Select
                               id={subTagId}
                               name="subTagIds"
