@@ -457,6 +457,17 @@ class TagForm extends Component {
                         </PaddedField>
 
                         <PaddedField
+                          name="isVisible"
+                          labelFor={isVisibleInputId}
+                        >
+                          <Checkbox
+                            id={isVisibleInputId}
+                            name="isVisible"
+                            label={i18next.t("admin.tags.form.isVisible")}
+                          />
+                        </PaddedField>
+
+                        <PaddedField
                           name="isTopLevel"
                           label="Is Top Level?"
                           labelFor={isTopLevelInputId}
