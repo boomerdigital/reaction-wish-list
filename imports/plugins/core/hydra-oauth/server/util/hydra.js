@@ -1,3 +1,4 @@
+import { inspect } from "util";
 import Logger from "@reactioncommerce/logger";
 import fetch from "node-fetch";
 
@@ -51,7 +52,9 @@ function put(flow, action, challenge, body) {
   })
     .then(async (res) => {
       if (res.status < 200 || res.status > 302) {
+        Logger.error(inspect(res));
         const json = await res.json();
+        Logger.error(inspect(json));
         Logger.error(`An error occurred while making PUT ${flow}-${challenge} request to Hydra: `, json.error_description);
         return Promise.reject(new Error(json.error_description));
       }
