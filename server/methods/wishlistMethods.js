@@ -13,6 +13,8 @@ export function createWishlist(userId) {
 }
 
 export function addToWishlist(userId, product) {
+  check(userId, String);
+  check(product, Object);
   let aWishlist = Wishlist.findOne({ userId });
   if (aWishlist == undefined) aWishlist = createWishlist(userId);
 
@@ -33,6 +35,9 @@ export function addToWishlist(userId, product) {
 }
 
 export function removeFromWishlist(userId, product, variantId) {
+  check(userId, String);
+  check(product, Object);
+
   const aWishlist = Wishlist.findOne({ userId });
   return Wishlist.update(
     {
@@ -48,19 +53,4 @@ export function removeFromWishlist(userId, product, variantId) {
   );
 }
 
-Meteor.methods({
-  createWishlist(userId) {
-    check(userId, String);
-    createWishlist(userId);
-  },
-  addToWishlist(userId, product) {
-    check(userId, String);
-    check(product, Object);
-    addToWishlist(userId, product);
-  },
-  removeFromWishlist(userId, product) {
-    check(userId, String);
-    check(product, Object);
-    removeFromWishlist(userId, product);
-  }
-});
+

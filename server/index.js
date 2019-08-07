@@ -1,2 +1,4 @@
-import './lib/collections';
-import "./init";
+import "../lib/collections";
+import "./methods/wishlist";
+import "./methods/init";
+

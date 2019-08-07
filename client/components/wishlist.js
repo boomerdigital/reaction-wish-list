@@ -59,12 +59,12 @@ class Wishlist extends Component {
   }
 }
 
-Wishlist.propTypes = {
-  variant: PropTypes.object,
-  isWished: PropTypes.bool,
-  user: PropTypes.object,
-  onWishlistClick: PropTypes.func
-}
+// Wishlist.propTypes = {
+//   variant: PropTypes.object,
+//   isWished: PropTypes.bool,
+//   user: PropTypes.object,
+//   onWishlistClick: PropTypes.func
+// }
 
 registerComponent({
   name: "Wishlist",
