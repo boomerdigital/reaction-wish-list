@@ -7,6 +7,7 @@ export const Tag = `
   isVisible
   isTopLevel
   heroMediaUrl
+  subTagIds
   metafields {
     description
     key

@@ -8,6 +8,9 @@ input AddTagInput {
   "Whether the tag is visible"
   isVisible: Boolean!
 
+  "Whether the tag is top level"
+  isTopLevel: Boolean
+
   "Unique name of the tag"
   name: String!
 
@@ -103,6 +106,9 @@ input UpdateTagInput {
 
   "A list of the IDs of top products in this tag"
   featuredProductIds: [ID]
+
+  "A list of the IDs of subtags from this tag"
+  subTagIds: [ID]
 
   "Hero media URL"
   heroMediaUrl: String
