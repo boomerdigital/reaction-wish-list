@@ -1,6 +1,6 @@
+import Logger from "@reactioncommerce/logger";
 import { Meteor } from "meteor/meteor";
-import { Wishlist } from "./lib/collections";
-import { Hooks, Reaction, Logger } from "/server/api";
+import { Wishlist } from "/lib/collections";
 
 Meteor.users.after.insert(function (userId, doc) {
   if ( doc.emails.length != 0 ) {
