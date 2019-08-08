@@ -69,8 +69,7 @@ function CoreLayout({ classes, location }) {
           <div className={classes.logo}>
             <img
               alt="Reaction"
-              src="/resources/reaction-logo-circular.svg"
-              width={200}
+              src="/resources/logo.png"
             />
           </div>
 
