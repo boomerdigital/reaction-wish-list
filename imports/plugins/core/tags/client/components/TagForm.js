@@ -490,22 +490,22 @@ class TagForm extends Component {
                           <ErrorsBlock names={["heroMediaUrl"]} />
                         </PaddedField>
                       </Grid>
-                      <Grid item xs={12}>
-                        <PaddedField
-                          name="subTagIds"
-                          label="Parent tag"
-                          labelFor={subTagId}
-                        >
-                          {(!isNew && !tag.isTopLevel) &&
+                      {(!isNew && !tag.isTopLevel) &&
+                        <Grid item xs={12}>
+                          <PaddedField
+                            name="subTagIds"
+                            label="Parent tag"
+                            labelFor={subTagId}
+                          >
                             <Select
                               id={subTagId}
                               name="subTagIds"
                               options={tagOptions}
                               value={tag.subTagIds && tag.subTagIds[0]}
                             />
-                          }
-                        </PaddedField>
-                      </Grid>
+                          </PaddedField>
+                        </Grid>
+                      }
                     </Grid>
                   }
 
