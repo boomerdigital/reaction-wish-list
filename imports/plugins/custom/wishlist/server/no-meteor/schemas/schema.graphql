@@ -1,26 +1,50 @@
 extend type Query {
-  fetchWishlistItems(accountId: ID!): Wishlist
+  "Return wishlist for logged in user"
+  fetchWishlistItems: Wishlist
 }
 
 extend type Mutation {
   "Add product to wishlist"
-  addProductToWishlist(input: AddProductWishlistInput!): Wishlist!
+  addProductToWishlist(input: AddProductWishlistInput!): addProductToWishlistPayload!
+  removeProductFromWishlist(input: removeProductFromWishlistInput!): removeProductFromWishlistPayload!
 }
 
 input AddProductWishlistInput {
   "The product's ID"
-  catalogItem: ID!
+  productId: ID!
 
   "The ID's ID"
-  variant: ID!
+  variantId: ID
 }
 
+input removeProductFromWishlistInput {
+  itemId: ID!
+}
+
+type addProductToWishlistPayload {
+  "The modified wishlist"
+  wishlist: Wishlist
+
+  "The same string you sent with the mutation params, for matching mutation calls with their responses"
+  clientMutationId: String
+}
+
+type removeProductFromWishlistPayload {
+  "Item id removed from Wishlist"
+  itemId: ID
+
+  "The same string you sent with the mutation params, for matching mutation calls with their responses"
+  clientMutationId: String
+}
+
+
 type WishlistItem {
-  catalogItem: CatalogItemProduct
-  variant: CatalogProductVariant
+  _id: ID
+  productId: ID
+  variantId: ID
 }
 
 type Wishlist {
-  accountId: Account!
+  userId: ID
   items: [WishlistItem]
 }

@@ -1,3 +1,4 @@
+/* eslint-disable valid-jsdoc */
 /**
  * @name "Mutation.addProductToWishlist"
  * @method
@@ -12,13 +13,13 @@
  * @param {Object} context - an object containing the per-request state
  * @return {Promise<Object>} AddCartItemsPayload
  */
-export default async function addProductToWishlist(parentResult, { input }, context) {
-  const { clientMutationId = null, catalogItem, variant } = input;
+export default function addProductToWishlist(parentResult, { input }, context) {
+  const { clientMutationId = null, productId, variantId } = input;
 
-  const wishlist = await context.mutations.addProductToWishlist(context, {
-    catalogItem,
-    variant
-  });
 
-  return { wishlist, clientMutationId };
+  return context.mutations.addProductToWishlist(context, {
+    productId,
+    variantId
+  }).then((wishlist) =>
+    ({ wishlist, clientMutationId }));
 }

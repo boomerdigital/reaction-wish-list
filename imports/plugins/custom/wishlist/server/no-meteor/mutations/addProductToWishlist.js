@@ -1,6 +1,38 @@
+/* eslint-disable require-jsdoc */
 import ReactionError from "@reactioncommerce/reaction-error";
-import { WishlistItem as WishlistItemSchema, Wishlist as WishlistSchema } from "/imports/plugins/custom/wishlist/lib/collections/schemas";
+import {
+  WishlistItem as WishlistItemSchema,
+  Wishlist as WishlistSchema
+} from "/imports/plugins/custom/wishlist/lib/collections/schemas";
 import hashLoginToken from "/imports/node-app/core/util/hashLoginToken";
+import Random from "@reactioncommerce/random";
+
+function createWishlist(Wishlist, { userId, items }) {
+  return Wishlist.insert({
+    _id: Random.id(),
+    userId,
+    items: [items]
+  }).then(() => Wishlist.findOne({ userId }));
+}
+
+function updateWishlist(Wishlist, { userId, items }) {
+  return Wishlist.updateOne(
+    { userId },
+    {
+      $addToSet: { items }
+    }
+  ).then(() => Wishlist.findOne({ userId }));
+}
+
+async function addToWishlist(Wishlist, { userId, items }) {
+  const aWishlist = await Wishlist.findOne({ userId });
+
+  if (!aWishlist) return createWishlist(Wishlist, { userId, items });
+
+  // if (matchedCount !== 1) throw new ReactionError("server-error", "Unable to update cart");
+
+  return updateWishlist(Wishlist, { userId, items });
+}
 
 /**
  * @method addProductToWishlist
@@ -16,42 +48,18 @@ import hashLoginToken from "/imports/node-app/core/util/hashLoginToken";
  *   optionally retry with the corrected price or quantity.
  */
 export default async function addProductToWishlist(context, input, options = {}) {
-  const { catalogItem, variant } = input;
-  const { appEvents, collections, accountId = null, userId = null } = context;
-  const { Wishlist } = collections;
+  const { productId, variantId } = input;
+  const { collections, userId = null } = context;
+  const { Wishlist, Accounts } = collections;
 
-  if (!accountId) {
-    throw new ReactionError("not-found", "User not logged in");
-  }
+  const userAccount = await Accounts.findOne({ userId });
+  if (!userAccount) throw new ReactionError("not-found", "No account found");
 
-  const itemPayload = { catalogItem, variant };
-  console.log('DEBUG: addProductToWishlist -> itemPayload', itemPayload);
+  const itemPayload = { productId, variantId, _id: Random.id() };
+  console.log("DEBUG: addProductToWishlist -> itemPayload", itemPayload);
   WishlistItemSchema.validate(itemPayload);
 
-  let wl = await Wishlist.findOne({ accountId: accountId });
-  if (!wl) {
-    // Create new wishlist
-    wl = await Wishlist.insert({ accountId, items: [itemPayload] })
-  } else {
-    // Proceed to add items to wishlist
-    const updatedAt = new Date();
-  
-    const modifier = {
-      $set: {
-        items: [...wl.items, itemPayload],
-        updatedAt
-      }
-    };
-    WishlistSchema.validate(modifier, { modifier: true });
-  
-    const { matchedCount } = await Wishlist.updateOne({ accountId: accountId }, modifier);
-    if (matchedCount !== 1) throw new ReactionError("server-error", "Unable to update cart");
-  }
+  // const aWishlist = await addToWishlist(Wishlist, { userId: "wQe3CvFk4J3tcQCwB", items: itemPayload });
 
-  // await appEvents.emit("afterCartUpdate", {
-  //   cart: updatedCart,
-  //   updatedBy: userId
-  // });
-
-  return wl;
+  return addToWishlist(Wishlist, { userId: "wQe3CvFk4J3tcQCwB", items: itemPayload });
 }
