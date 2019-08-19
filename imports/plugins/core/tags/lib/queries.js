@@ -17,6 +17,16 @@ export const tagListingQuery = gql`
   }
 `;
 
+export const topLevelTagsQuery = gql`
+  query getTopLevelTags($shopId: ID!) {
+    tags(shopId: $shopId, shouldIncludeInvisible: true, isTopLevel: true) {
+      nodes {
+        ${Tag}
+      }
+    }
+  }
+`;
+
 export const getTag = gql`
   query getTag($slugOrId: String!) {
     tag(slugOrId: $slugOrId, shouldIncludeInvisible: true) {

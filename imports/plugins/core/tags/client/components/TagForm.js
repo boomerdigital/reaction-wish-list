@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { applyTheme, getRequiredValidator } from "@reactioncommerce/components/utils";
-import { Mutation } from "react-apollo";
-import { orderBy, uniqueId } from "lodash";
+import { Components } from "@reactioncommerce/reaction-components";
+import { Query, Mutation } from "react-apollo";
+import { orderBy, uniqueId, get } from "lodash";
 import Dropzone from "react-dropzone";
 import styled from "styled-components";
 import { Form } from "reacto-form";
@@ -11,6 +12,7 @@ import Checkbox from "@reactioncommerce/components/Checkbox/v1";
 import ErrorsBlock from "@reactioncommerce/components/ErrorsBlock/v1";
 import Field from "@reactioncommerce/components/Field/v1";
 import TextInput from "@reactioncommerce/components/TextInput/v1";
+import Select from "@reactioncommerce/components/Select/v1";
 import Grid from "@material-ui/core/Grid";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -20,7 +22,7 @@ import CardContent from "@material-ui/core/CardContent";
 import MUICardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import { i18next } from "/client/api";
-import { tagListingQuery, tagProductsQuery } from "../../lib/queries";
+import { tagListingQuery, tagProductsQuery, topLevelTagsQuery } from "../../lib/queries";
 import { addTagMutation, updateTagMutation, removeTagMutation, setTagHeroMediaMutation } from "../../lib/mutations";
 import TagToolbar from "./TagToolbar";
 import TagProductTable from "./TagProductTable";
@@ -97,18 +99,27 @@ class TagForm extends Component {
     const { shopId } = this.props;
     const isNew = !data._id;
 
-    const refetchQueries = [{
-      query: tagListingQuery,
-      variables: {
-        shopId
+    const refetchQueries = [
+      {
+        query: tagListingQuery,
+        variables: {
+          shopId
+        }
+      },
+      {
+        query: topLevelTagsQuery,
+        variables: {
+          shopId
+        }
       }
-    }];
+    ];
 
     const input = {
       id: data._id,
       name: data.name,
       displayTitle: data.displayTitle,
       isVisible: data.isVisible || false,
+      isTopLevel: data.isTopLevel || false,
       shopId,
       heroMediaUrl: data.heroMediaUrl,
       metafields: [
@@ -124,6 +135,12 @@ class TagForm extends Component {
     };
 
     if (!isNew) {
+      if (data.isTopLevel || data.subTagIds.length === 0) {
+        input.subTagIds = [];
+      } else {
+        input.subTagIds = [data.subTagIds];
+      }
+
       if (Object.keys(this.productOrderingPriorities).length) {
         const featured = [];
         Object.keys(this.productOrderingPriorities).forEach((productId) => {
@@ -338,10 +355,12 @@ class TagForm extends Component {
 
   render() {
     const tag = this.tagData;
-    const { shopId } = this.props;
+    const isNew = !tag._id;
+    const { shopId, topLevelTags } = this.props;
     const { currentTab } = this.state;
     const nameInputId = `name_${this.uniqueInstanceIdentifier}`;
     const slugInputId = `slug_${this.uniqueInstanceIdentifier}`;
+    const isTopLevelInputId = `isTopLevel_${this.uniqueInstanceIdentifier}`;
     const heroMediaUrlInputId = `heroMediaUrl_${this.uniqueInstanceIdentifier}`;
     const displayTitleInputId = `displayTitle_${this.uniqueInstanceIdentifier}`;
     const keywordsInputId = `keywords_${this.uniqueInstanceIdentifier}`;
@@ -353,6 +372,7 @@ class TagForm extends Component {
     const fbAppIdInputId = `fbAppId_${this.uniqueInstanceIdentifier}`;
     const ogLocaleInputId = `ogLocale_${this.uniqueInstanceIdentifier}`;
     const isVisibleInputId = `isVisible_${this.uniqueInstanceIdentifier}`;
+    const subTagId = `subTagIds_${this.uniqueInstanceIdentifier}`;
 
     let title = i18next.t("admin.tags.form.formTitleNew");
     let mutation = addTagMutation;
@@ -361,6 +381,11 @@ class TagForm extends Component {
       title = i18next.t("admin.tags.form.formTitleUpdate");
       mutation = updateTagMutation;
     }
+
+    const tagOptions = (get(topLevelTags, "nodes") || []).map((t) => ({
+      label: t.displayTitle || t.name,
+      value: t._id
+    }));
 
     return (
       <Mutation mutation={mutation}>
@@ -441,6 +466,15 @@ class TagForm extends Component {
                             label={i18next.t("admin.tags.form.isVisible")}
                           />
                         </PaddedField>
+
+                        <PaddedField
+                          name="isTopLevel"
+                          label="Is Top Level?"
+                          labelFor={isTopLevelInputId}
+                        >
+                          <Checkbox name="isTopLevel" label="Is Top Level?" />
+                          <ErrorsBlock names={["isTopLevel"]} />
+                        </PaddedField>
                       </Grid>
                       <Grid item md={6}>
                         <Typography variant="h6">{i18next.t("admin.tags.form.tagListingHero")}</Typography>
@@ -456,6 +490,22 @@ class TagForm extends Component {
                           <ErrorsBlock names={["heroMediaUrl"]} />
                         </PaddedField>
                       </Grid>
+                      {(!isNew && !tag.isTopLevel) &&
+                        <Grid item xs={12}>
+                          <PaddedField
+                            name="subTagIds"
+                            label="Parent tag"
+                            labelFor={subTagId}
+                          >
+                            <Select
+                              id={subTagId}
+                              name="subTagIds"
+                              options={tagOptions}
+                              value={tag.subTagIds && tag.subTagIds[0]}
+                            />
+                          </PaddedField>
+                        </Grid>
+                      }
                     </Grid>
                   }
 

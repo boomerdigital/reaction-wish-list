@@ -7,4 +7,4 @@ fi
 
 [ -n "$SOURCE_TYPE" ]        || SOURCE_TYPE=git  # (3)
 [ -n "$DOCKERFILE_PATH" ]    || DOCKERFILE_PATH=.
-[ -n "$IMAGE_NAME" ]         || IMAGE_NAME=dropbox-container:${SOURCE_BRANCH}
+[ -n "$IMAGE_NAME" ]         || IMAGE_NAME=le-backend:${SOURCE_BRANCH}

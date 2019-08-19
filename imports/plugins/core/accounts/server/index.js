@@ -1,4 +1,5 @@
 import { Meteor } from "meteor/meteor";
+import "../lib/extendCoreSchema";
 import "./i18n";
 import "./init.js";
 import methods from "./methods";
